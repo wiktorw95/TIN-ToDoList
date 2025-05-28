@@ -1,0 +1,590 @@
+// Variables
+$primary-color: #2563eb;
+$primary-hover: #1d4ed8;
+$primary-light: #dbeafe;
+$secondary-color: #64748b;
+$success-color: #059669;
+$warning-color: #d97706;
+$danger-color: #dc2626;
+$background-color: #f8fafc;
+$surface-color: #ffffff;
+$text-primary: #1e293b;
+$text-secondary: #64748b;
+$text-muted: #94a3b8;
+$border-color: #e2e8f0;
+$border-radius: 8px;
+$border-radius-lg: 12px;
+$shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+$shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+$shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+$transition: all 0.2s ease-in-out;
+
+// Mixins
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: none;
+  border-radius: $border-radius;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: $transition;
+  text-decoration: none;
+  outline: none;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin input-base {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  font-size: 14px;
+  color: $text-primary;
+  background-color: $surface-color;
+  transition: $transition;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+  }
+
+  &::placeholder {
+    color: $text-muted;
+  }
+}
+
+@mixin card {
+  background-color: $surface-color;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-sm;
+  padding: 24px;
+}
+
+// Reset and base styles
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: $background-color;
+  color: $text-primary;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+// Main container
+#List-app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
+}
+
+// Header
+header {
+  text-align: center;
+  margin-bottom: 32px;
+
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: $text-primary;
+    margin-bottom: 8px;
+
+    @media (max-width: 768px) {
+      font-size: 24px;
+    }
+  }
+}
+
+// Task form
+.task-form {
+  @include card;
+  margin-bottom: 24px;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 16px;
+  align-items: start;
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr 1fr;
+
+    > div:first-child {
+      grid-column: 1 / -1;
+    }
+
+    button {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  select {
+    @include input-base;
+  }
+
+  select {
+    cursor: pointer;
+  }
+
+  button {
+    @include button-base;
+    background-color: $primary-color;
+    color: white;
+    padding: 12px 24px;
+    font-weight: 600;
+
+    &:hover:not(:disabled) {
+      background-color: $primary-hover;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// Filter bar
+.filter-bar {
+  @include card;
+  margin-bottom: 24px;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+
+  input,
+  select {
+    @include input-base;
+  }
+}
+
+// Task list
+#task-list {
+  list-style: none;
+  margin-bottom: 24px;
+
+  li {
+    @include card;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    cursor: grab;
+    transition: $transition;
+
+    &:hover {
+      box-shadow: $shadow-md;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    &.completed {
+      opacity: 0.7;
+      background-color: #f8f9fa;
+
+      strong {
+        text-decoration: line-through;
+        color: $text-muted;
+      }
+    }
+
+    // Priority styles
+    &.high {
+      border-left: 4px solid $danger-color;
+    }
+
+    &.medium {
+      border-left: 4px solid $warning-color;
+    }
+
+    &.low {
+      border-left: 4px solid $success-color;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      gap: 12px;
+      cursor: pointer;
+
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: $primary-color;
+        cursor: pointer;
+      }
+
+      div {
+        flex: 1;
+
+        strong {
+          display: block;
+          font-size: 16px;
+          font-weight: 600;
+          margin-bottom: 4px;
+          color: $text-primary;
+        }
+
+        .meta {
+          font-size: 12px;
+          color: $text-secondary;
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+
+          @media (max-width: 576px) {
+            flex-direction: column;
+            gap: 2px;
+          }
+        }
+      }
+    }
+
+    > div:last-child {
+      display: flex;
+      gap: 8px;
+
+      button {
+        @include button-base;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        background-color: transparent;
+        border: 1px solid $border-color;
+        font-size: 16px;
+
+        &:hover {
+          background-color: $background-color;
+        }
+
+        &:first-child:hover {
+          background-color: rgba($primary-color, 0.1);
+          border-color: $primary-color;
+        }
+
+        &:last-child:hover {
+          background-color: rgba($danger-color, 0.1);
+          border-color: $danger-color;
+        }
+      }
+    }
+  }
+}
+
+// Controls
+.controls {
+  @include card;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+
+  button {
+    @include button-base;
+    background-color: $surface-color;
+    color: $text-primary;
+    border: 1px solid $border-color;
+
+    &:hover:not(:disabled) {
+      background-color: $background-color;
+      border-color: $secondary-color;
+    }
+  }
+
+  input[type="file"] {
+    @include input-base;
+    max-width: 200px;
+    padding: 8px 12px;
+    font-size: 12px;
+
+    @media (max-width: 576px) {
+      max-width: 100%;
+    }
+  }
+
+  // Bulk controls
+  > div {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+
+    @media (max-width: 768px) {
+      margin-left: 0;
+      width: 100%;
+      justify-content: center;
+    }
+
+    button {
+      font-size: 12px;
+      padding: 6px 12px;
+
+      &:first-child {
+        background-color: rgba($primary-color, 0.1);
+        color: $primary-color;
+        border-color: $primary-color;
+
+        &:hover {
+          background-color: $primary-color;
+          color: white;
+        }
+      }
+
+      &:nth-child(2) {
+        background-color: rgba($success-color, 0.1);
+        color: $success-color;
+        border-color: $success-color;
+
+        &:hover {
+          background-color: $success-color;
+          color: white;
+        }
+      }
+
+      &:last-child {
+        background-color: rgba($danger-color, 0.1);
+        color: $danger-color;
+        border-color: $danger-color;
+
+        &:hover {
+          background-color: $danger-color;
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+// Edit modal
+#edit-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+
+  > div {
+    background: $surface-color;
+    border-radius: $border-radius-lg;
+    padding: 32px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: $shadow-lg;
+    animation: modalSlideIn 0.3s ease-out;
+
+    @media (max-width: 576px) {
+      padding: 24px;
+      width: 95%;
+    }
+
+    h3 {
+      margin-bottom: 24px;
+      font-size: 20px;
+      font-weight: 600;
+      color: $text-primary;
+    }
+
+    > div {
+      margin-bottom: 16px;
+
+      &:last-of-type {
+        margin-bottom: 24px;
+      }
+    }
+
+    input,
+    select {
+      @include input-base;
+      margin-bottom: 4px;
+    }
+
+    button {
+      @include button-base;
+      margin-right: 12px;
+
+      &:first-of-type {
+        background-color: $primary-color;
+        color: white;
+
+        &:hover {
+          background-color: $primary-hover;
+        }
+      }
+
+      &:last-of-type {
+        background-color: transparent;
+        color: $text-secondary;
+        border: 1px solid $border-color;
+
+        &:hover {
+          background-color: $background-color;
+        }
+      }
+    }
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Error messages
+.error-message {
+  color: $danger-color;
+  font-size: 12px;
+  margin-top: 4px;
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
+// Loading states
+.loading {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid $border-color;
+    border-top-color: $primary-color;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Empty state
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: $text-muted;
+
+  svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: $text-secondary;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 576px) {
+  #List-app {
+    padding: 12px;
+  }
+
+  .task-form,
+  .filter-bar,
+  .controls {
+    padding: 16px;
+  }
+
+  #task-list li {
+    padding: 12px 16px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+
+    label {
+      order: 1;
+    }
+
+    > div:last-child {
+      order: 2;
+      justify-content: center;
+    }
+  }
+}
+
+// Print styles
+@media print {
+  #List-app {
+    max-width: none;
+    padding: 0;
+  }
+
+  .task-form,
+  .filter-bar,
+  .controls,
+  #edit-modal {
+    display: none !important;
+  }
+
+  #task-list li {
+    box-shadow: none;
+    border: 1px solid $border-color;
+    margin-bottom: 8px;
+
+    > div:last-child {
+      display: none;
+    }
+  }
+}
