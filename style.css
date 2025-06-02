@@ -1,12 +1,12 @@
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-color: #f8fafc;
+  font-family: sans-serif;
+  background: #f1f5f9;
   color: #1e293b;
   line-height: 1.6;
   font-size: 14px;
@@ -17,387 +17,414 @@ body {
   margin: 0 auto;
   padding: 20px;
 }
-@media (max-width: 768px) {
-  #List-app {
-    padding: 16px;
-  }
-}
 
 header {
   text-align: center;
   margin-bottom: 32px;
 }
 header h1 {
-  font-size: 32px;
+  font-size: clamp(24px, 5vw, 32px);
   font-weight: 700;
-  color: #1e293b;
   margin-bottom: 8px;
 }
-@media (max-width: 768px) {
-  header h1 {
-    font-size: 24px;
-  }
-}
 
-.task-form {
-  background-color: #ffffff;
+.task-form, .filter-bar {
+  background: #fff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 24px;
   margin-bottom: 24px;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr auto;
   gap: 16px;
-  align-items: start;
 }
-@media (max-width: 992px) {
-  .task-form {
-    grid-template-columns: 1fr 1fr;
-  }
-  .task-form > div:first-child {
-    grid-column: 1/-1;
-  }
-  .task-form button {
-    grid-column: 1/-1;
-  }
+.task-form input, .task-form select, .filter-bar input, .filter-bar select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  color: #1e293b;
+  font-size: 14px;
+  transition: 0.2s ease all;
+}
+.task-form input:focus, .task-form select:focus, .filter-bar input:focus, .filter-bar select:focus {
+  border-color: hsl(221, 83%, 53%);
+  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+  outline: none;
+}
+.task-form input::placeholder, .task-form select::placeholder, .filter-bar input::placeholder, .filter-bar select::placeholder {
+  color: #64748b;
+}
+.task-form button, .filter-bar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 1px solid hsl(221, 83%, 53%);
+  border-radius: 8px;
+  background: hsl(221, 83%, 53%);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s ease all;
+  padding: 12px 24px;
+  font-weight: 600;
+}
+.task-form button:hover, .filter-bar button:hover {
+  transform: translateY(-1px);
+}
+.task-form button:focus, .filter-bar button:focus {
+  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+}
+.task-form button:disabled, .filter-bar button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.task-form button:hover:not(:disabled), .filter-bar button:hover:not(:disabled) {
+  background: hsl(221, 83%, 43%);
+}
+
+.task-form {
+  grid-template-columns: 2fr repeat(3, 1fr) auto;
 }
 @media (max-width: 576px) {
   .task-form {
     grid-template-columns: 1fr;
   }
 }
-.task-form input[type=text],
-.task-form input[type=date],
-.task-form select {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #1e293b;
-  background-color: #ffffff;
-  transition: all 0.2s ease-in-out;
-}
-.task-form input[type=text]:focus,
-.task-form input[type=date]:focus,
-.task-form select:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-.task-form input[type=text]::placeholder,
-.task-form input[type=date]::placeholder,
-.task-form select::placeholder {
-  color: #94a3b8;
-}
-.task-form select {
-  cursor: pointer;
-}
-.task-form button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  text-decoration: none;
-  outline: none;
-  background-color: #2563eb;
-  color: white;
-  padding: 12px 24px;
-  font-weight: 600;
-}
-.task-form button:focus {
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-.task-form button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-.task-form button:hover:not(:disabled) {
-  background-color: #1d4ed8;
-  transform: translateY(-1px);
-}
 
 .filter-bar {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  padding: 24px;
-  margin-bottom: 24px;
-  display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  gap: 16px;
 }
 @media (max-width: 768px) {
   .filter-bar {
     grid-template-columns: 1fr;
   }
 }
-.filter-bar input,
-.filter-bar select {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #1e293b;
-  background-color: #ffffff;
-  transition: all 0.2s ease-in-out;
-}
-.filter-bar input:focus,
-.filter-bar select:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-.filter-bar input::placeholder,
-.filter-bar select::placeholder {
-  color: #94a3b8;
-}
 
-#task-list {
+#taskList {
   list-style: none;
   margin-bottom: 24px;
 }
-#task-list li {
-  background-color: #ffffff;
+#taskList li {
+  background: #fff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 24px;
+  cursor: pointer;
+  transition: 0.2s ease all;
   margin-bottom: 12px;
   display: flex;
   align-items: center;
   gap: 16px;
   padding: 16px 20px;
   cursor: grab;
-  transition: all 0.2s ease-in-out;
 }
-#task-list li:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+#taskList li:hover {
   transform: translateY(-1px);
 }
-#task-list li:active {
+#taskList li:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+#taskList li:active {
   cursor: grabbing;
 }
-#task-list li.completed {
+#taskList li.completed {
   opacity: 0.7;
-  background-color: #f8f9fa;
+  background: #e2e8f0;
 }
-#task-list li.completed strong {
+#taskList li.completed strong {
   text-decoration: line-through;
-  color: #94a3b8;
+  color: #64748b;
 }
-#task-list li.high {
-  border-left: 4px solid #dc2626;
+#taskList li.high {
+  border-left: 50px solid hsl(0, 72%, 55%);
+  background: hsla(0, 72%, 55%, 0.2);
 }
-#task-list li.medium {
-  border-left: 4px solid #d97706;
+#taskList li.medium {
+  border-left: 50px solid hsl(32, 84%, 48%);
+  background: hsla(32, 84%, 48%, 0.2);
 }
-#task-list li.low {
-  border-left: 4px solid #059669;
+#taskList li.low {
+  border-left: 50px solid hsl(160, 70%, 40%);
+  background: hsla(160, 70%, 40%, 0.2);
 }
-#task-list li label {
+#taskList li label {
   display: flex;
   align-items: center;
   flex: 1;
   gap: 12px;
   cursor: pointer;
 }
-#task-list li label input[type=checkbox] {
+#taskList li label input[type=checkbox] {
   width: 18px;
   height: 18px;
-  accent-color: #2563eb;
-  cursor: pointer;
+  accent-color: hsl(221, 83%, 53%);
 }
-#task-list li label div {
+#taskList li label div {
   flex: 1;
 }
-#task-list li label div strong {
+#taskList li label div strong {
   display: block;
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 4px;
-  color: #1e293b;
 }
-#task-list li label div .meta {
+#taskList li label div .meta {
   font-size: 12px;
   color: #64748b;
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
-@media (max-width: 576px) {
-  #task-list li label div .meta {
-    flex-direction: column;
-    gap: 2px;
-  }
-}
-#task-list li > div:last-child {
+#taskList li > div:last-child {
   display: flex;
   gap: 8px;
 }
-#task-list li > div:last-child button {
-  display: inline-flex;
+#taskList li > div:last-child button {
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px 16px;
-  border: none;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
+  background: #fff;
+  color: #1e293b;
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
   text-decoration: none;
   outline: none;
+  cursor: pointer;
+  transition: 0.2s ease all;
   width: 36px;
   height: 36px;
   padding: 0;
-  background-color: transparent;
-  border: 1px solid #e2e8f0;
   font-size: 16px;
 }
-#task-list li > div:last-child button:focus {
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+#taskList li > div:last-child button:hover {
+  transform: translateY(-1px);
 }
-#task-list li > div:last-child button:disabled {
-  opacity: 0.6;
+#taskList li > div:last-child button:focus {
+  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+}
+#taskList li > div:last-child button:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
-#task-list li > div:last-child button:hover {
-  background-color: #f8fafc;
+#taskList li > div:last-child button:first-child:hover {
+  background: rgba(35.6745, 98.67565, 234.6255, 0.1);
+  border-color: hsl(221, 83%, 53%);
 }
-#task-list li > div:last-child button:first-child:hover {
-  background-color: rgba(37, 99, 235, 0.1);
-  border-color: #2563eb;
-}
-#task-list li > div:last-child button:last-child:hover {
-  background-color: rgba(220, 38, 38, 0.1);
-  border-color: #dc2626;
+#taskList li > div:last-child button:last-child:hover {
+  background: rgba(222.87, 57.63, 57.63, 0.1);
+  border-color: hsl(0, 72%, 55%);
 }
 
 .controls {
-  background-color: #ffffff;
+  background: #fff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 24px;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
 }
-.controls button {
-  display: inline-flex;
+.controls button, .controls input:not([type=file]) {
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px 16px;
-  border: none;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
+  background: #fff;
+  color: #1e293b;
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
   text-decoration: none;
   outline: none;
-  background-color: #ffffff;
-  color: #1e293b;
-  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: 0.2s ease all;
 }
-.controls button:focus {
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+.controls button:hover, .controls input:not([type=file]):hover {
+  transform: translateY(-1px);
 }
-.controls button:disabled {
-  opacity: 0.6;
+.controls button:focus, .controls input:not([type=file]):focus {
+  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+}
+.controls button:disabled, .controls input:not([type=file]):disabled {
+  opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
-.controls button:hover:not(:disabled) {
-  background-color: #f8fafc;
-  border-color: #64748b;
+.controls button:hover:not(:disabled), .controls input:not([type=file]):hover:not(:disabled) {
+  background: #e2e8f0;
 }
 .controls input[type=file] {
-  width: 100%;
-  padding: 12px 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
-  font-size: 14px;
+  background: #e2e8f0;
   color: #1e293b;
-  background-color: #ffffff;
-  transition: all 0.2s ease-in-out;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s ease all;
   max-width: 200px;
   padding: 8px 12px;
   font-size: 12px;
+  overflow: hidden;
+}
+.controls input[type=file]:hover {
+  transform: translateY(-1px);
 }
 .controls input[type=file]:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
 }
-.controls input[type=file]::placeholder {
-  color: #94a3b8;
+.controls input[type=file]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
-@media (max-width: 576px) {
-  .controls input[type=file] {
-    max-width: 100%;
-  }
+.controls input[type=file]::file-selector-button {
+  background: hsl(221, 83%, 53%);
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease all;
+}
+.controls input[type=file]:hover {
+  background: #fff;
+  border-color: hsl(221, 83%, 53%);
+}
+.controls input[type=file]:hover::file-selector-button {
+  background: hsl(221, 83%, 43%);
 }
 .controls > div {
   display: flex;
   gap: 8px;
   margin-left: auto;
 }
-@media (max-width: 768px) {
-  .controls > div {
-    margin-left: 0;
-    width: 100%;
-    justify-content: center;
-  }
-}
 .controls > div button {
   font-size: 12px;
   padding: 6px 12px;
 }
-.controls > div button:first-child {
-  background-color: rgba(37, 99, 235, 0.1);
-  color: #2563eb;
-  border-color: #2563eb;
+.controls > div button:nth-child(1) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 1px solid hsl(221, 83%, 53%);
+  border-radius: 8px;
+  background: rgba(35.6745, 98.67565, 234.6255, 0.1);
+  color: hsl(221, 83%, 53%);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s ease all;
 }
-.controls > div button:first-child:hover {
-  background-color: #2563eb;
-  color: white;
+.controls > div button:nth-child(1):hover {
+  transform: translateY(-1px);
+}
+.controls > div button:nth-child(1):focus {
+  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+}
+.controls > div button:nth-child(1):disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 .controls > div button:nth-child(2) {
-  background-color: rgba(5, 150, 105, 0.1);
-  color: #059669;
-  border-color: #059669;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 1px solid hsl(160, 70%, 40%);
+  border-radius: 8px;
+  background: rgba(30.6, 173.4, 125.8, 0.1);
+  color: hsl(160, 70%, 40%);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s ease all;
 }
 .controls > div button:nth-child(2):hover {
-  background-color: #059669;
-  color: white;
+  transform: translateY(-1px);
 }
-.controls > div button:last-child {
-  background-color: rgba(220, 38, 38, 0.1);
-  color: #dc2626;
-  border-color: #dc2626;
+.controls > div button:nth-child(2):focus {
+  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
 }
-.controls > div button:last-child:hover {
-  background-color: #dc2626;
-  color: white;
+.controls > div button:nth-child(2):disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.controls > div button:nth-child(3) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 1px solid hsl(0, 72%, 55%);
+  border-radius: 8px;
+  background: rgba(222.87, 57.63, 57.63, 0.1);
+  color: hsl(0, 72%, 55%);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s ease all;
+}
+.controls > div button:nth-child(3):hover {
+  transform: translateY(-1px);
+}
+.controls > div button:nth-child(3):focus {
+  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+}
+.controls > div button:nth-child(3):disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.controls > div button:hover {
+  color: #fff;
+}
+.controls > div button:hover:nth-child(1) {
+  background: hsl(221, 83%, 53%);
+}
+.controls > div button:hover:nth-child(2) {
+  background: hsl(160, 70%, 40%);
+}
+.controls > div button:hover:nth-child(3) {
+  background: hsl(0, 72%, 55%);
 }
 
-#edit-modal {
+#editModal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0, 0, 0, 0.5);
   display: none;
   justify-content: center;
@@ -405,96 +432,115 @@ header h1 {
   z-index: 1000;
   backdrop-filter: blur(4px);
 }
-#edit-modal > div {
-  background: #ffffff;
+#editModal > div {
+  background: #fff;
   border-radius: 12px;
   padding: 32px;
-  width: 90%;
-  max-width: 500px;
+  width: min(500px, 90vw);
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  animation: modalSlideIn 0.3s ease-out;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
-@media (max-width: 576px) {
-  #edit-modal > div {
-    padding: 24px;
-    width: 95%;
-  }
-}
-#edit-modal > div h3 {
+#editModal > div h3 {
   margin-bottom: 24px;
   font-size: 20px;
   font-weight: 600;
-  color: #1e293b;
 }
-#edit-modal > div > div {
+#editModal > div > div {
   margin-bottom: 16px;
 }
-#edit-modal > div > div:last-of-type {
+#editModal > div > div:last-of-type {
   margin-bottom: 24px;
 }
-#edit-modal > div input,
-#edit-modal > div select {
+#editModal > div input, #editModal > div select {
   width: 100%;
   padding: 12px 16px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
-  font-size: 14px;
+  background: #fff;
   color: #1e293b;
-  background-color: #ffffff;
-  transition: all 0.2s ease-in-out;
+  font-size: 14px;
+  transition: 0.2s ease all;
   margin-bottom: 4px;
 }
-#edit-modal > div input:focus,
-#edit-modal > div select:focus {
+#editModal > div input:focus, #editModal > div select:focus {
+  border-color: hsl(221, 83%, 53%);
+  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
-#edit-modal > div input::placeholder,
-#edit-modal > div select::placeholder {
-  color: #94a3b8;
+#editModal > div input::placeholder, #editModal > div select::placeholder {
+  color: #64748b;
 }
-#edit-modal > div button {
-  display: inline-flex;
+#editModal > div button {
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px 16px;
-  border: none;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
+  background: #fff;
+  color: #1e293b;
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
   text-decoration: none;
   outline: none;
+  cursor: pointer;
+  transition: 0.2s ease all;
   margin-right: 12px;
 }
-#edit-modal > div button:focus {
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+#editModal > div button:hover {
+  transform: translateY(-1px);
 }
-#edit-modal > div button:disabled {
-  opacity: 0.6;
+#editModal > div button:focus {
+  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+}
+#editModal > div button:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
-#edit-modal > div button:first-of-type {
-  background-color: #2563eb;
-  color: white;
+#editModal > div button:first-of-type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 1px solid hsl(221, 83%, 53%);
+  border-radius: 8px;
+  background: hsl(221, 83%, 53%);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s ease all;
 }
-#edit-modal > div button:first-of-type:hover {
-  background-color: #1d4ed8;
+#editModal > div button:first-of-type:hover {
+  transform: translateY(-1px);
 }
-#edit-modal > div button:last-of-type {
-  background-color: transparent;
-  color: #64748b;
-  border: 1px solid #e2e8f0;
+#editModal > div button:first-of-type:focus {
+  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
 }
-#edit-modal > div button:last-of-type:hover {
-  background-color: #f8fafc;
+#editModal > div button:first-of-type:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+#editModal > div button:first-of-type:hover {
+  background: hsl(221, 83%, 43%);
 }
 
-@keyframes modalSlideIn {
+.error-message {
+  color: hsl(0, 72%, 55%);
+  font-size: 12px;
+  margin-top: 4px;
+  display: none;
+}
+.error-message.show {
+  display: inline-flex;
+}
+
+@keyframes slideIn {
   from {
     opacity: 0;
     transform: translateY(-50px) scale(0.95);
@@ -504,99 +550,50 @@ header h1 {
     transform: translateY(0) scale(1);
   }
 }
-.error-message {
-  color: #dc2626;
-  font-size: 12px;
-  margin-top: 4px;
-  display: none;
-}
-.error-message.show {
-  display: block;
-}
-
-.loading {
-  position: relative;
-}
-.loading::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
-  margin: -10px 0 0 -10px;
-  border: 2px solid #e2e8f0;
-  border-top-color: #2563eb;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
 }
-.empty-state {
-  text-align: center;
-  padding: 48px 24px;
-  color: #94a3b8;
+@media (max-width: 768px) {
+  #List-app {
+    padding: 16px;
+  }
+  .controls > div {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
 }
-.empty-state svg {
-  width: 64px;
-  height: 64px;
-  margin-bottom: 16px;
-  opacity: 0.5;
-}
-.empty-state h3 {
-  font-size: 18px;
-  margin-bottom: 8px;
-  color: #64748b;
-}
-.empty-state p {
-  font-size: 14px;
-}
-
 @media (max-width: 576px) {
   #List-app {
     padding: 12px;
   }
-  .task-form,
-  .filter-bar,
-  .controls {
+  .task-form, .filter-bar, .controls {
     padding: 16px;
   }
-  #task-list li {
-    padding: 12px 16px;
+  #taskList li {
+    padding: 10px 16px;
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
   }
-  #task-list li label {
+  #taskList li label {
     order: 1;
   }
-  #task-list li > div:last-child {
+  #taskList li > div:last-child {
     order: 2;
-    justify-content: center;
+    justify-content: right;
   }
-}
-@media print {
-  #List-app {
-    max-width: none;
-    padding: 0;
+  #taskList li .meta {
+    flex-direction: column;
+    gap: 2px;
   }
-  .task-form,
-  .filter-bar,
-  .controls,
-  #edit-modal {
-    display: none !important;
+  .controls input[type=file] {
+    max-width: 100%;
   }
-  #task-list li {
-    box-shadow: none;
-    border: 1px solid #e2e8f0;
-    margin-bottom: 8px;
-  }
-  #task-list li > div:last-child {
-    display: none;
+  #edit-modal > div {
+    padding: 24px;
   }
 }
 

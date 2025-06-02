@@ -46,20 +46,24 @@
 
       // Add error element for title validation
       const titleError = createElement('div', ['error-message'], '', {
-        id: 'title-error',
+        id: 'titleError',
         textContent: '',
         style: ''
       });
 
       const categorySelect = createElement('select', [], '', {id: 'category'});
-      [['Kategoria', ''], ['Praca'], ['Dom'], ['Inne']].forEach(([text, value = text]) =>
-              categorySelect.appendChild(createElement('option', [], text, {value}))
-      );
+      // Optimized: using single key arrays
+      ['Kategoria', 'Praca', 'Dom', 'Inne'].forEach((text, idx) => {
+        const value = idx === 0 ? '' : text;
+        categorySelect.appendChild(createElement('option', [], text, {value}));
+      });
 
       const prioritySelect = createElement('select', [], '', {id: 'priority'});
-      [['Priorytet', ''], ['Niski', 'low'], ['Średni', 'medium'], ['Wysoki', 'high']].forEach(([text, value]) =>
-              prioritySelect.appendChild(createElement('option', [], text, {value}))
-      );
+      // Optimized: using single key arrays with mapping
+      ['Priorytet', 'Niski', 'Średni', 'Wysoki'].forEach((text, idx) => {
+        const valueMap = ['', 'low', 'medium', 'high'];
+        prioritySelect.appendChild(createElement('option', [], text, {value: valueMap[idx]}));
+      });
 
       const deadlineInput = createElement('input', [], '', {
         type: 'date',
@@ -84,19 +88,23 @@
 
       const filterInput = createElement('input', [], '', {
         type: 'text',
-        id: 'filter-input', // ✓ Matches els.filterText
+        id: 'filterText',
         placeholder: 'Filtruj po tytule...'
       });
 
-      const categoryFilter = createElement('select', [], '', {id: 'filter-category'}); // ✓ Matches els.filterCat
-      [['Wszystkie kategorie', ''], ['Praca'], ['Dom'], ['Inne']].forEach(([text, value = text]) =>
-              categoryFilter.appendChild(createElement('option', [], text, {value}))
-      );
+      const categoryFilter = createElement('select', [], '', {id: 'filterCat'});
+      // Optimized: using single key arrays
+      ['Wszystkie kategorie', 'Praca', 'Dom', 'Inne'].forEach((text, idx) => {
+        const value = idx === 0 ? '' : text;
+        categoryFilter.appendChild(createElement('option', [], text, {value}));
+      });
 
-      const priorityFilter = createElement('select', [], '', {id: 'filter-priority'}); // ✓ Matches els.filterPri
-      [['Wszystkie priorytety', ''], ['Niski', 'low'], ['Średni', 'medium'], ['Wysoki', 'high']].forEach(([text, value]) =>
-              priorityFilter.appendChild(createElement('option', [], text, {value}))
-      );
+      const priorityFilter = createElement('select', [], '', {id: 'filterPri'});
+      // Optimized: using single key arrays with mapping
+      ['Wszystkie priorytety', 'Niski', 'Średni', 'Wysoki'].forEach((text, idx) => {
+        const valueMap = ['', 'low', 'medium', 'high'];
+        priorityFilter.appendChild(createElement('option', [], text, {value: valueMap[idx]}));
+      });
 
       [filterInput, categoryFilter, priorityFilter].forEach(option => filterBar.appendChild(option));
 
@@ -105,7 +113,7 @@
 
     function renderEditModal() {
       const modal = createElement('div', [], '', {
-        id: 'edit-modal',
+        id: 'editModal',
         style: 'display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); justify-content:center; align-items:center; z-index:1000;'
       });
 
@@ -116,30 +124,34 @@
       const title = createElement('h3', [], 'Edytuj zadanie');
 
       const editTitle = createElement('input', [], '', {
-        id: 'edit-title',
+        id: 'editTitle',
         placeholder: 'Tytuł'
       });
 
       // Add error element for edit title validation
       const editTitleError = createElement('div', ['error-message'], '', {
-        id: 'edit-title-error',
+        id: 'editTitleError',
         textContent: '',
         style: ''
       });
 
-      const editCategory = createElement('select', [], '', {id: 'edit-category'});
-      [['Kategoria', ''], ['Praca'], ['Dom'], ['Inne']].forEach(([text, value = text]) =>
-              editCategory.appendChild(createElement('option', [], text, {value}))
-      );
+      const editCategory = createElement('select', [], '', {id: 'editCat'});
+      // Optimized: using single key arrays
+      ['Kategoria', 'Praca', 'Dom', 'Inne'].forEach((text, idx) => {
+        const value = idx === 0 ? '' : text;
+        editCategory.appendChild(createElement('option', [], text, {value}));
+      });
 
-      const editPriority = createElement('select', [], '', {id: 'edit-priority'});
-      [['Priorytet', ''], ['Niski', 'low'], ['Średni', 'medium'], ['Wysoki', 'high']].forEach(([text, value]) =>
-              editPriority.appendChild(createElement('option', [], text, {value}))
-      );
+      const editPriority = createElement('select', [], '', {id: 'editPri'});
+      // Optimized: using single key arrays with mapping
+      ['Priorytet', 'Niski', 'Średni', 'Wysoki'].forEach((text, idx) => {
+        const valueMap = ['', 'low', 'medium', 'high'];
+        editPriority.appendChild(createElement('option', [], text, {value: valueMap[idx]}));
+      });
 
       const editDeadline = createElement('input', [], '', {
         type: 'date',
-        id: 'edit-deadline'
+        id: 'editDeadline'
       });
 
       const saveButton = createElement('button', [], 'Zapisz');
@@ -162,7 +174,7 @@
     }
 
     function renderTaskList() {
-      return createElement('ul', [], '', {id: 'task-list'});
+      return createElement('ul', [], '', {id: 'taskList'});
     }
 
     function renderControls() {
@@ -173,7 +185,7 @@
       const exportBtn = createElement('button', [], 'Eksportuj');
       const importInput = createElement('input', [], '', {
         type: 'file',
-        id: 'import-file', // ✓ Matches els.importFile
+        id: 'importFile',
         multiple: true
       });
 
@@ -204,44 +216,28 @@
 
 // DOM elements - NOW they will exist when this runs
     const els = {};
-    [
-      { key: 'title', id: 'title' },
-      { key: 'category', id: 'category' },
-      { key: 'priority', id: 'priority' },
-      { key: 'deadline', id: 'deadline' },
-      { key: 'filterText', id: 'filter-input' },
-      { key: 'filterCat', id: 'filter-category' },
-      { key: 'filterPri', id: 'filter-priority' },
-      { key: 'importFile', id: 'import-file' },
-      { key: 'taskList', id: 'task-list' },
-      { key: 'editModal', id: 'edit-modal' },
-      { key: 'editTitle', id: 'edit-title' },
-      { key: 'editCat', id: 'edit-category' },
-      { key: 'editPri', id: 'edit-priority' },
-      { key: 'editDeadline', id: 'edit-deadline' },
-      { key: 'titleError', id: 'title-error' },
-      { key: 'editTitleError', id: 'edit-title-error' }
-    ].forEach(({ key, id }) => els[key] = document.getElementById(id));
+    ['title', 'category', 'priority', 'deadline', 'filterText', 'filterCat', 'filterPri', 'importFile', 'taskList', 'editModal', 'editTitle', 'editCat', 'editPri', 'editDeadline', 'titleError', 'editTitleError']
+            .forEach(key => els[key] = document.getElementById(key));
 
-  // Utility functions
-  const save = () => localStorage.setItem('tasks', JSON.stringify(tasks));
-  const updateHistory = () => { history.push(JSON.stringify(tasks)); redoStack = []; };
-  const sanitize = input => { const div = document.createElement("div"); div.textContent = input; return div.innerHTML; };
-  const log = (event, details = "") => console.log(`[LOG] ${new Date().toISOString()} - ${event}: ${details}`);
+    // Utility functions
+    const save = () => localStorage.setItem('tasks', JSON.stringify(tasks));
+    const updateHistory = () => { history.push(JSON.stringify(tasks)); redoStack = []; };
+    const sanitize = input => { const div = document.createElement("div"); div.textContent = input; return div.innerHTML; };
+    const log = (event, details = "") => console.log(`[LOG] ${new Date().toISOString()} - ${event}: ${details}`);
 
-  // Modal functions
-  const openEditModal = idx => {
-    const t = tasks[idx];
-    editIdx = idx;
-    els.editTitle.value = t.title;
-    els.editCat.value = t.category || '';
-    els.editPri.value = t.priority || '';
-    els.editDeadline.value = t.deadline || '';
-    els.editModal.style.display = 'flex';
-  };
+    // Modal functions
+    const openEditModal = idx => {
+      const t = tasks[idx];
+      editIdx = idx;
+      els.editTitle.value = t.title;
+      els.editCat.value = t.category || '';
+      els.editPri.value = t.priority || '';
+      els.editDeadline.value = t.deadline || '';
+      els.editModal.style.display = 'flex';
+    };
 
     const closeEditModal = () => {
-      const modal = document.getElementById('edit-modal');
+      const modal = document.getElementById('editModal');
       if (modal) {
         modal.style.display = 'none';
       }
@@ -250,111 +246,111 @@
       editIdx = null;
 
       // Clear error message
-      const errorElement = document.getElementById('edit-title-error');
+      const errorElement = document.getElementById('editTitleError');
       if (errorElement) {
         errorElement.style.display = 'none';
       }
     };
 
-  const saveEdit = () => {
-    if (editIdx === null) return;
-    const newTitle = els.editTitle.value.trim();
-    const errorElement = document.getElementById('edit-title-error');
+    const saveEdit = () => {
+      if (editIdx === null) return;
+      const newTitle = els.editTitle.value.trim();
+      const errorElement = document.getElementById('editTitleError');
 
-    if (!newTitle) {
-      errorElement.textContent = 'Tytuł zadania jest wymagany';
-      errorElement.style.display = 'block';
-      return false;
-    }
+      if (!newTitle) {
+        errorElement.textContent = 'Tytuł zadania jest wymagany';
+        errorElement.style.display = 'block';
+        return false;
+      }
 
-    updateHistory();
-    tasks[editIdx] = {
-      ...tasks[editIdx],
-      title: sanitize(newTitle),
-      category: sanitize(els.editCat.value),
-      priority: sanitize(els.editPri.value),
-      deadline: sanitize(els.editDeadline.value)
+      updateHistory();
+      tasks[editIdx] = {
+        ...tasks[editIdx],
+        title: sanitize(newTitle),
+        category: sanitize(els.editCat.value),
+        priority: sanitize(els.editPri.value),
+        deadline: sanitize(els.editDeadline.value)
+      };
+
+      log("Task Edited", newTitle);
+      save();
+      render();
+      closeEditModal();
     };
 
-    log("Task Edited", newTitle);
-    save();
-    render();
-    closeEditModal();
-  };
+    // Task operations
+    const addTask = () => {
+      const title = sanitize(els.title.value.trim());
+      const errorElement = document.getElementById('titleError');
 
-  // Task operations
-  const addTask = () => {
-    const title = sanitize(els.title.value.trim());
-    const errorElement = document.getElementById('title-error');
+      if (!title) {
+        errorElement.textContent = 'Tytuł zadania jest wymagany';
+        errorElement.style.display = 'block';
+        return false;
+      }
 
-    if (!title) {
-      errorElement.textContent = 'Tytuł zadania jest wymagany';
-      errorElement.style.display = 'block';
-      return false;
-    }
+      errorElement.style.display = 'none';
 
-    errorElement.style.display = 'none';
+      updateHistory();
+      tasks.push({
+        title,
+        category: sanitize(els.category.value),
+        priority: sanitize(els.priority.value),
+        deadline: sanitize(els.deadline.value),
+        completed: false
+      });
 
-    updateHistory();
-    tasks.push({
-      title,
-      category: sanitize(els.category.value),
-      priority: sanitize(els.priority.value),
-      deadline: sanitize(els.deadline.value),
-      completed: false
-    });
+      stats.addCount++;
+      log("Task Added", title);
+      log("Task Count", stats.addCount);
 
-    stats.addCount++;
-    log("Task Added", title);
-    log("Task Count", stats.addCount);
-
-    els.title.value = els.category.value = els.priority.value = els.deadline.value = '';
-    save();
-    render();
-  };
-
-  const toggleComplete = idx => {
-    updateHistory();
-    tasks[idx].completed = !tasks[idx].completed;
-    log("Task Completed", tasks[idx].title);
-    save();
-    render();
-  };
-
-  const deleteTask = idx => {
-    log("Task Deleted", tasks[idx].title);
-    if(stats.addCount !== 0){
-      stats.addCount--;
-    }
-    log("Task Count", stats.addCount);
-    updateHistory();
-    tasks.splice(idx, 1);
-    save();
-    render();
-  };
-
-  // History operations
-  const undo = () => {
-    if (history.length > 0) {
-      redoStack.push(JSON.stringify(tasks));
-      tasks = JSON.parse(history.pop());
-      log("Undo", "Undo Element");
+      els.title.value = els.category.value = els.priority.value = els.deadline.value = '';
       save();
       render();
-    }
-  };
+    };
 
-  const redo = () => {
-    if (redoStack.length > 0) {
-      history.push(JSON.stringify(tasks));
-      tasks = JSON.parse(redoStack.pop());
-      log("Redo", "Redo Element");
+    const toggleComplete = idx => {
+      updateHistory();
+      tasks[idx].completed = !tasks[idx].completed;
+      log("Task Completed", tasks[idx].title);
       save();
       render();
-    }
-  };
+    };
 
-  // Import/Export with Promise.all
+    const deleteTask = idx => {
+      log("Task Deleted", tasks[idx].title);
+      if(stats.addCount !== 0){
+        stats.addCount--;
+      }
+      log("Task Count", stats.addCount);
+      updateHistory();
+      tasks.splice(idx, 1);
+      save();
+      render();
+    };
+
+    // History operations
+    const undo = () => {
+      if (history.length > 0) {
+        redoStack.push(JSON.stringify(tasks));
+        tasks = JSON.parse(history.pop());
+        log("Undo", "Undo Element");
+        save();
+        render();
+      }
+    };
+
+    const redo = () => {
+      if (redoStack.length > 0) {
+        history.push(JSON.stringify(tasks));
+        tasks = JSON.parse(redoStack.pop());
+        log("Redo", "Redo Element");
+        save();
+        render();
+      }
+    };
+
+    // Import/Export with Promise.all
 
     const exportTasks = () => {
       try {
@@ -414,112 +410,112 @@
       }
     };
 
-  // Render function
-  const render = () => {
-    els.taskList.innerHTML = '';
-    const fText = els.filterText.value.toLowerCase();
-    const fCat = els.filterCat.value;
-    const fPri = els.filterPri.value;
-    stats.addCount = 0;
+    // Render function
+    const render = () => {
+      els.taskList.innerHTML = '';
+      const fText = els.filterText.value.toLowerCase();
+      const fCat = els.filterCat.value;
+      const fPri = els.filterPri.value;
+      stats.addCount = 0;
 
-    tasks
-            .filter(t => t.title.toLowerCase().includes(fText) &&
-                    (fCat === '' || t.category === fCat) &&
-                    (fPri === '' || t.priority === fPri))
-            .forEach((t, idx) => {
-              stats.addCount++;
-              const li = document.createElement('li');
-              li.className = `${t.priority} ${t.completed ? 'completed' : ''}`;
-              li.draggable = true;
+      tasks
+              .filter(t => t.title.toLowerCase().includes(fText) &&
+                      (fCat === '' || t.category === fCat) &&
+                      (fPri === '' || t.priority === fPri))
+              .forEach((t, idx) => {
+                stats.addCount++;
+                const li = document.createElement('li');
+                li.className = `${t.priority} ${t.completed ? 'completed' : ''}`;
+                li.draggable = true;
 
-              // Drag and drop
-              li.ondragstart = e => e.dataTransfer.setData('text/plain', idx);
-              li.ondragover = e => e.preventDefault();
-              li.ondrop = e => {
-                const draggedIdx = e.dataTransfer.getData('text/plain');
-                if (draggedIdx != idx) {
-                  [tasks[draggedIdx], tasks[idx]] = [tasks[idx], tasks[draggedIdx]];
-                  log("Moved", "Task  '" + tasks[idx].title + "' changed position with '" + tasks[draggedIdx].title + "'");
-                  updateHistory();
-                  save();
-                  render();
-                }
-              };
+                // Drag and drop
+                li.ondragstart = e => e.dataTransfer.setData('text/plain', idx);
+                li.ondragover = e => e.preventDefault();
+                li.ondrop = e => {
+                  const draggedIdx = e.dataTransfer.getData('text/plain');
+                  if (draggedIdx !== idx) {
+                    [tasks[draggedIdx], tasks[idx]] = [tasks[idx], tasks[draggedIdx]];
+                    log("Moved", "Task  '" + tasks[idx].title + "' changed position with '" + tasks[draggedIdx].title + "'");
+                    updateHistory();
+                    save();
+                    render();
+                  }
+                };
 
-              // Task content
-              const label = document.createElement('label');
-              Object.assign(label.style, { display: 'flex', alignItems: 'center', flex: '1' });
+                // Task content
+                const label = document.createElement('label');
+                Object.assign(label.style, { display: 'flex', alignItems: 'center', flex: '1' });
 
-              const checkbox = document.createElement('input');
-              Object.assign(checkbox, { type: 'checkbox', checked: t.completed, onchange: () => toggleComplete(idx) });
+                const checkbox = document.createElement('input');
+                Object.assign(checkbox, { type: 'checkbox', checked: t.completed, onchange: () => toggleComplete(idx) });
 
-              const textDiv = document.createElement('div');
-              const titleEl = document.createElement('strong');
-              titleEl.textContent = t.title;
+                const textDiv = document.createElement('div');
+                const titleEl = document.createElement('strong');
+                titleEl.textContent = t.title;
 
-              const metaEl = document.createElement('div');
-              metaEl.className = 'meta';
-              metaEl.textContent = `${t.category || 'Brak kategorii'} | ${t.priority || 'brak priorytetu'} | ${t.deadline || 'brak terminu'}`;
+                const metaEl = document.createElement('div');
+                metaEl.className = 'meta';
+                metaEl.textContent = `${t.category || 'Brak kategorii'} | ${t.priority || 'brak priorytetu'} | ${t.deadline || 'brak terminu'}`;
 
-              textDiv.append(titleEl, metaEl);
-              label.append(checkbox, textDiv);
+                textDiv.append(titleEl, metaEl);
+                label.append(checkbox, textDiv);
 
-              // Buttons
-              const buttonsDiv = document.createElement('div');
-              const editBtn = document.createElement('button');
-              const deleteBtn = document.createElement('button');
+                // Buttons
+                const buttonsDiv = document.createElement('div');
+                const editBtn = document.createElement('button');
+                const deleteBtn = document.createElement('button');
 
-              Object.assign(editBtn, { textContent: '✏️', onclick: () => openEditModal(idx) });
-              Object.assign(deleteBtn, { textContent: '🗑️', onclick: () => deleteTask(idx) });
+                Object.assign(editBtn, { textContent: '✏️', onclick: () => openEditModal(idx) });
+                Object.assign(deleteBtn, { textContent: '🗑️', onclick: () => deleteTask(idx) });
 
-              buttonsDiv.append(editBtn, deleteBtn);
-              li.append(label, buttonsDiv);
-              els.taskList.appendChild(li);
-            });
-  };
+                buttonsDiv.append(editBtn, deleteBtn);
+                li.append(label, buttonsDiv);
+                els.taskList.appendChild(li);
+              });
+    };
 
-  // Event listeners
-  els.importFile.addEventListener('change', importTasks);
-  els.filterText.addEventListener('input', render);
-  els.filterCat.addEventListener('change', render);
-  els.filterPri.addEventListener('change', render);
+    // Event listeners
+    els.importFile.addEventListener('change', importTasks);
+    els.filterText.addEventListener('input', render);
+    els.filterCat.addEventListener('change', render);
+    els.filterPri.addEventListener('change', render);
 
-  // Batch operations with Promise.all
-  const batchComplete = async (taskIndices) => {
-    updateHistory();
+    // Batch operations with Promise.all
+    const batchComplete = async (taskIndices) => {
+      updateHistory();
 
-    // Complete multiple tasks simultaneously
-    await Promise.all(
-            taskIndices.map(async (idx) => {
-              tasks[idx].completed = true;
-              log("Task Completed", tasks[idx].title);
-              return Promise.resolve();
-            })
-    );
+      // Complete multiple tasks simultaneously
+      await Promise.all(
+              taskIndices.map(async (idx) => {
+                tasks[idx].completed = true;
+                log("Task Completed", tasks[idx].title);
+                return Promise.resolve();
+              })
+      );
 
-    save();
-    render();
-  };
+      save();
+      render();
+    };
 
-  const batchDelete = async (taskIndices) => {
-    updateHistory();
+    const batchDelete = async (taskIndices) => {
+      updateHistory();
 
-    // Log all deletions simultaneously
-    await Promise.all(
-            taskIndices.map(async (idx) => {
-              log("Task Deleted", tasks[idx].title);
-              return Promise.resolve();
-            })
-    );
+      // Log all deletions simultaneously
+      await Promise.all(
+              taskIndices.map(async (idx) => {
+                log("Task Deleted", tasks[idx].title);
+                return Promise.resolve();
+              })
+      );
 
-    // Remove tasks (reverse order to maintain indices)
-    taskIndices.reverse().forEach(idx => tasks.splice(idx, 1));
+      // Remove tasks (reverse order to maintain indices)
+      taskIndices.reverse().forEach(idx => tasks.splice(idx, 1));
 
-    save();
-    render();
-  };
+      save();
+      render();
+    };
 
-  // Add bulk operations to the interface
+    // Add bulk operations to the interface
     const addBulkControls = () => {
       const controls = document.querySelector('.controls');
       const bulkDiv = document.createElement('div');
@@ -545,7 +541,7 @@
     let selectedTasks = new Set();
 
     const selectAllVisible = () => {
-      const visibleTasks = document.querySelectorAll('#task-list li');
+      const visibleTasks = document.querySelectorAll('#taskList li');
       selectedTasks.clear();
       visibleTasks.forEach((li, idx) => {
         selectedTasks.add(idx);
@@ -577,7 +573,7 @@
       }
     };
 
-  initialize();
+    initialize();
   });
 </script>
 </body>

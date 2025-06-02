@@ -1,308 +1,207 @@
-// Variables
-$primary-color: #2563eb;
-$primary-hover: #1d4ed8;
-$primary-light: #dbeafe;
-$secondary-color: #64748b;
-$success-color: #059669;
-$warning-color: #d97706;
-$danger-color: #dc2626;
-$background-color: #f8fafc;
-$surface-color: #ffffff;
-$text-primary: #1e293b;
-$text-secondary: #64748b;
-$text-muted: #94a3b8;
-$border-color: #e2e8f0;
-$border-radius: 8px;
-$border-radius-lg: 12px;
-$shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-$shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-$shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-$transition: all 0.2s ease-in-out;
-
+$primary: hsl(221, 83%, 53%);
+$danger: hsl(0, 72%, 55%);
+$warning: hsl(32, 84%, 48%);
+$success: hsl(160, 70%, 40%);
+$white: #fff;
+$black: #1e293b;
+$gray: #f1f5f9;
+$gray-dark: #64748b;
+$gray-light: #e2e8f0;
+// UI style values
+$radius: 8px;
+$radius-lg: 12px;
+$shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+$transition: 0.2s ease all;
 // Mixins
-@mixin button-base {
-  display: inline-flex;
+//
+@mixin interactive {
+  cursor: pointer;
+  transition: $transition;
+  &:hover {
+    transform: translateY(-1px);
+  }}
+@mixin button($bg: $white, $color: $black, $border: $gray-light) {
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px 16px;
-  border: none;
-  border-radius: $border-radius;
+  border: 1px solid $border;
+  border-radius: $radius;
+  background: $bg;
+  color: $color;
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
-  transition: $transition;
   text-decoration: none;
   outline: none;
-
+  @include interactive;
   &:focus {
-    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
   }
-
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
-  }
-}
-
-@mixin input-base {
+    transform: none;
+  }}
+@mixin input {
   width: 100%;
   padding: 12px 16px;
-  border: 1px solid $border-color;
-  border-radius: $border-radius;
+  border: 1px solid $gray-light;
+  border-radius: $radius;
+  background: $white;
+  color: $black;
   font-size: 14px;
-  color: $text-primary;
-  background-color: $surface-color;
   transition: $transition;
-
   &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
     outline: none;
-    border-color: $primary-color;
-    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
   }
-
-  &::placeholder {
-    color: $text-muted;
-  }
+  &::placeholder { color: $gray-dark; }
 }
-
 @mixin card {
-  background-color: $surface-color;
-  border: 1px solid $border-color;
-  border-radius: $border-radius-lg;
-  box-shadow: $shadow-sm;
-  padding: 24px;
-}
+  background: $white;
+  border: 1px solid $gray-light;
+  border-radius: $radius-lg;
+  box-shadow: $shadow;
+  padding: 24px;}
+// Base reset
 
-// Reset and base styles
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-color: $background-color;
-  color: $text-primary;
+   font-family: sans-serif;
+  background: $gray;
+  color: $black;
   line-height: 1.6;
   font-size: 14px;
 }
-
-// Main container
+// Layout
 #List-app {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-
-  @media (max-width: 768px) {
-    padding: 16px;
-  }
 }
-
-// Header
-header {
+header
+{
   text-align: center;
   margin-bottom: 32px;
-
   h1 {
-    font-size: 32px;
+    font-size: clamp(24px, 5vw, 32px);
     font-weight: 700;
-    color: $text-primary;
     margin-bottom: 8px;
-
-    @media (max-width: 768px) {
-      font-size: 24px;
-    }
   }
 }
-
-// Task form
-.task-form {
+// Forms
+.task-form, .filter-bar {
   @include card;
   margin-bottom: 24px;
-
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr auto;
   gap: 16px;
-  align-items: start;
-
-  @media (max-width: 992px) {
-    grid-template-columns: 1fr 1fr;
-
-    > div:first-child {
-      grid-column: 1 / -1;
-    }
-
-    button {
-      grid-column: 1 / -1;
-    }
-  }
-
-  @media (max-width: 576px) {
-    grid-template-columns: 1fr;
-  }
-
-  input[type="text"],
-  input[type="date"],
-  select {
-    @include input-base;
-  }
-
-  select {
-    cursor: pointer;
-  }
-
+  input, select { @include input; }
   button {
-    @include button-base;
-    background-color: $primary-color;
-    color: white;
+    @include button($primary, $white, $primary);
     padding: 12px 24px;
     font-weight: 600;
-
-    &:hover:not(:disabled) {
-      background-color: $primary-hover;
-      transform: translateY(-1px);
-    }
+    &:hover:not(:disabled) { background: darken($primary, 10%); }
   }
 }
-
-// Filter bar
+.task-form {
+  grid-template-columns: 2fr repeat(3, 1fr) auto;
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr; }
+}
 .filter-bar {
-  @include card;
-  margin-bottom: 24px;
-
-  display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  gap: 16px;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-
-  input,
-  select {
-    @include input-base;
-  }
+  @media (max-width: 768px) { grid-template-columns: 1fr; }
 }
-
 // Task list
-#task-list {
+#taskList {
   list-style: none;
   margin-bottom: 24px;
-
   li {
     @include card;
+    @include interactive;
     margin-bottom: 12px;
     display: flex;
     align-items: center;
     gap: 16px;
     padding: 16px 20px;
     cursor: grab;
-    transition: $transition;
-
-    &:hover {
-      box-shadow: $shadow-md;
-      transform: translateY(-1px);
-    }
-
-    &:active {
-      cursor: grabbing;
-    }
-
+    &:hover { box-shadow: $shadow-lg; }
+    &:active { cursor: grabbing; }
     &.completed {
       opacity: 0.7;
-      background-color: #f8f9fa;
-
+      background: $gray-light;
       strong {
         text-decoration: line-through;
-        color: $text-muted;
+        color: $gray-dark;
       }
     }
-
-    // Priority styles
     &.high {
-      border-left: 4px solid $danger-color;
+      border-left: 50px solid $danger;
+      background: hsla(0, 72%, 55%, 0.2);
     }
-
     &.medium {
-      border-left: 4px solid $warning-color;
+      border-left: 50px solid $warning;
+      background: hsla(32, 84%, 48%, 0.2);
     }
-
     &.low {
-      border-left: 4px solid $success-color;
+      border-left: 50px solid $success;
+      background: hsla(160, 70%, 40%, 0.2);
     }
-
     label {
       display: flex;
       align-items: center;
       flex: 1;
       gap: 12px;
       cursor: pointer;
-
       input[type="checkbox"] {
         width: 18px;
         height: 18px;
-        accent-color: $primary-color;
-        cursor: pointer;
+        accent-color: $primary;
       }
-
       div {
         flex: 1;
-
         strong {
           display: block;
           font-size: 16px;
           font-weight: 600;
           margin-bottom: 4px;
-          color: $text-primary;
         }
-
         .meta {
           font-size: 12px;
-          color: $text-secondary;
+          color: $gray-dark;
           display: flex;
           gap: 8px;
           flex-wrap: wrap;
-
-          @media (max-width: 576px) {
-            flex-direction: column;
-            gap: 2px;
-          }
         }
       }
     }
-
     > div:last-child {
       display: flex;
       gap: 8px;
-
       button {
-        @include button-base;
+        @include button;
         width: 36px;
         height: 36px;
         padding: 0;
-        background-color: transparent;
-        border: 1px solid $border-color;
         font-size: 16px;
-
-        &:hover {
-          background-color: $background-color;
-        }
-
         &:first-child:hover {
-          background-color: rgba($primary-color, 0.1);
-          border-color: $primary-color;
+          background: rgba($primary, 0.1);
+          border-color: $primary;
         }
-
         &:last-child:hover {
-          background-color: rgba($danger-color, 0.1);
-          border-color: $danger-color;
+          background: rgba($danger, 0.1);
+          border-color: $danger;
         }
       }
     }
   }
 }
-
 // Controls
 .controls {
   @include card;
@@ -311,159 +210,116 @@ header {
   gap: 12px;
   align-items: center;
 
-  button {
-    @include button-base;
-    background-color: $surface-color;
-    color: $text-primary;
-    border: 1px solid $border-color;
-
+  button, input:not([type="file"]) {
+    @include button;
     &:hover:not(:disabled) {
-      background-color: $background-color;
-      border-color: $secondary-color;
+      background: $gray-light;
     }
   }
-
   input[type="file"] {
-    @include input-base;
+    position: relative;
+    @include button($gray-light, $black, $gray-light);
     max-width: 200px;
     padding: 8px 12px;
     font-size: 12px;
-
-    @media (max-width: 576px) {
-      max-width: 100%;
+    overflow: hidden;
+    &::file-selector-button {
+      background: $primary;
+      color: $white;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-right: 8px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: $transition;
+    }
+    &:hover {
+      background: $white;
+      border-color: $primary;
+      &::file-selector-button {
+        background: darken($primary, 10%);
+      }
     }
   }
-
-  // Bulk controls
   > div {
     display: flex;
     gap: 8px;
     margin-left: auto;
-
-    @media (max-width: 768px) {
-      margin-left: 0;
-      width: 100%;
-      justify-content: center;
-    }
-
     button {
       font-size: 12px;
       padding: 6px 12px;
-
-      &:first-child {
-        background-color: rgba($primary-color, 0.1);
-        color: $primary-color;
-        border-color: $primary-color;
-
-        &:hover {
-          background-color: $primary-color;
-          color: white;
+      $button-colors: $primary, $success, $danger;
+      @each $color in $button-colors {
+        $index: index($button-colors, $color);
+        &:nth-child(#{$index}) {
+          @include button(rgba($color, 0.1), $color, $color);
         }
       }
-
-      &:nth-child(2) {
-        background-color: rgba($success-color, 0.1);
-        color: $success-color;
-        border-color: $success-color;
-
-        &:hover {
-          background-color: $success-color;
-          color: white;
-        }
-      }
-
-      &:last-child {
-        background-color: rgba($danger-color, 0.1);
-        color: $danger-color;
-        border-color: $danger-color;
-
-        &:hover {
-          background-color: $danger-color;
-          color: white;
+      &:hover {
+        color: $white;
+        @each $color in $button-colors {
+          $index: index($button-colors, $color);
+          &:nth-child(#{$index}) {
+            background: $color;
+          }
         }
       }
     }
   }
 }
-
-// Edit modal
-#edit-modal {
+// Modal
+#editModal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0, 0, 0, 0.5);
   display: none;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  align-items: center;  z-index: 1000;
   backdrop-filter: blur(4px);
-
   > div {
-    background: $surface-color;
-    border-radius: $border-radius-lg;
+    background: $white;
+    border-radius: $radius-lg;
     padding: 32px;
-    width: 90%;
-    max-width: 500px;
+    width: min(500px, 90vw);
     max-height: 90vh;
     overflow-y: auto;
     box-shadow: $shadow-lg;
-    animation: modalSlideIn 0.3s ease-out;
-
-    @media (max-width: 576px) {
-      padding: 24px;
-      width: 95%;
-    }
-
     h3 {
       margin-bottom: 24px;
       font-size: 20px;
       font-weight: 600;
-      color: $text-primary;
     }
-
     > div {
       margin-bottom: 16px;
-
-      &:last-of-type {
-        margin-bottom: 24px;
-      }
+      &:last-of-type { margin-bottom: 24px; }
     }
-
-    input,
-    select {
-      @include input-base;
+    input, select {
+      @include input;
       margin-bottom: 4px;
     }
-
     button {
-      @include button-base;
+      @include button;
       margin-right: 12px;
-
       &:first-of-type {
-        background-color: $primary-color;
-        color: white;
-
-        &:hover {
-          background-color: $primary-hover;
-        }
-      }
-
-      &:last-of-type {
-        background-color: transparent;
-        color: $text-secondary;
-        border: 1px solid $border-color;
-
-        &:hover {
-          background-color: $background-color;
+        @include button($primary, $white, $primary);
+        &:hover { background: darken($primary, 10%);
         }
       }
     }
   }
 }
-
-@keyframes modalSlideIn {
+// Utilities
+.error-message {
+  color: $danger;
+  font-size: 12px;
+  margin-top: 4px;
+  display: none;
+  &.show { display: inline-flex; }
+}
+// Animations
+@keyframes slideIn {
   from {
     opacity: 0;
     transform: translateY(-50px) scale(0.95);
@@ -473,118 +329,37 @@ header {
     transform: translateY(0) scale(1);
   }
 }
-
-// Error messages
-.error-message {
-  color: $danger-color;
-  font-size: 12px;
-  margin-top: 4px;
-  display: none;
-
-  &.show {
-    display: block;
-  }
-}
-
-// Loading states
-.loading {
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20px;
-    height: 20px;
-    margin: -10px 0 0 -10px;
-    border: 2px solid $border-color;
-    border-top-color: $primary-color;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-}
-
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
 }
-
-// Empty state
-.empty-state {
-  text-align: center;
-  padding: 48px 24px;
-  color: $text-muted;
-
-  svg {
-    width: 64px;
-    height: 64px;
-    margin-bottom: 16px;
-    opacity: 0.5;
-  }
-
-  h3 {
-    font-size: 18px;
-    margin-bottom: 8px;
-    color: $text-secondary;
-  }
-
-  p {
-    font-size: 14px;
+// Responsive
+@media (max-width: 768px) {
+  #List-app { padding: 16px; }
+  .controls > div {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
   }
 }
-
-// Responsive adjustments
 @media (max-width: 576px) {
-  #List-app {
-    padding: 12px;
-  }
-
-  .task-form,
-  .filter-bar,
-  .controls {
-    padding: 16px;
-  }
-
-  #task-list li {
-    padding: 12px 16px;
+  #List-app { padding: 12px; }
+  .task-form, .filter-bar, .controls { padding: 16px; }
+  #taskList li {
+    padding: 10px 16px;
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
-
-    label {
-      order: 1;
-    }
-
+    label { order: 1; }
     > div:last-child {
       order: 2;
-      justify-content: center;
+      justify-content: right;
+    }
+    .meta {
+      flex-direction: column;
+      gap: 2px;
     }
   }
-}
-
-// Print styles
-@media print {
-  #List-app {
-    max-width: none;
-    padding: 0;
-  }
-
-  .task-form,
-  .filter-bar,
-  .controls,
-  #edit-modal {
-    display: none !important;
-  }
-
-  #task-list li {
-    box-shadow: none;
-    border: 1px solid $border-color;
-    margin-bottom: 8px;
-
-    > div:last-child {
-      display: none;
-    }
-  }
-}
+  .controls input[type="file"] { max-width: 100%; }
+  #edit-modal > div { padding: 24px; }}
