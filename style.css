@@ -6,10 +6,10 @@
 
 body {
   font-family: sans-serif;
-  background: #f1f5f9;
-  color: #1e293b;
-  line-height: 1.6;
+  background: #0f172a;
+  color: #f9fafb;
   font-size: 14px;
+  line-height: 1.6;
 }
 
 #List-app {
@@ -23,70 +23,82 @@ header {
   margin-bottom: 32px;
 }
 header h1 {
-  font-size: clamp(24px, 5vw, 32px);
+  font-size: clamp(24px, 5vw, 36px);
   font-weight: 700;
-  margin-bottom: 8px;
+  color: hsl(221, 90%, 60%);
 }
 
-.task-form, .filter-bar {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.task-form,
+.filter-bar {
+  background: linear-gradient(145deg, #1e293b, rgb(24.8426966292, 33.9516853933, 48.8573033708));
+  border: 1px solid #334155;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   padding: 24px;
   margin-bottom: 24px;
   display: grid;
   gap: 16px;
 }
-.task-form input, .task-form select, .filter-bar input, .filter-bar select {
+.task-form input, .task-form select,
+.filter-bar input,
+.filter-bar select {
   width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #fff;
-  color: #1e293b;
+  padding: 14px 18px;
+  border: 1px solid #475569;
+  border-radius: 10px;
+  background: #1e293b;
+  color: #f9fafb;
   font-size: 14px;
-  transition: 0.2s ease all;
+  transition: 0.3s ease;
 }
-.task-form input:focus, .task-form select:focus, .filter-bar input:focus, .filter-bar select:focus {
-  border-color: hsl(221, 83%, 53%);
-  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+.task-form input:focus, .task-form select:focus,
+.filter-bar input:focus,
+.filter-bar select:focus {
+  border-color: hsl(221, 90%, 60%);
+  background: rgb(24.8426966292, 33.9516853933, 48.8573033708);
+  box-shadow: 0 0 0 3px rgba(100, 149, 255, 0.2);
   outline: none;
 }
-.task-form input::placeholder, .task-form select::placeholder, .filter-bar input::placeholder, .filter-bar select::placeholder {
-  color: #64748b;
+.task-form input::placeholder, .task-form select::placeholder,
+.filter-bar input::placeholder,
+.filter-bar select::placeholder {
+  color: rgb(116.5909090909, 135.0454545455, 161.4090909091);
 }
-.task-form button, .filter-bar button {
-  display: flex;
+.task-form button,
+.filter-bar button {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
-  border: 1px solid hsl(221, 83%, 53%);
-  border-radius: 8px;
-  background: hsl(221, 83%, 53%);
-  color: #fff;
+  padding: 10px 18px;
+  border: 1px solid hsl(221, 90%, 60%);
+  border-radius: 10px;
+  background: hsl(221, 90%, 60%);
+  color: #f9fafb;
   font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  outline: none;
-  cursor: pointer;
-  transition: 0.2s ease all;
-  padding: 12px 24px;
   font-weight: 600;
+  text-decoration: none;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: 0.3s ease;
 }
-.task-form button:hover, .filter-bar button:hover {
-  transform: translateY(-1px);
+.task-form button:hover,
+.filter-bar button:hover {
+  transform: translateY(-2px);
 }
-.task-form button:focus, .filter-bar button:focus {
-  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+.task-form button:focus,
+.filter-bar button:focus {
+  box-shadow: 0 0 0 4px rgba(100, 149, 255, 0.2);
+  outline: none;
 }
-.task-form button:disabled, .filter-bar button:disabled {
-  opacity: 0.5;
+.task-form button:disabled,
+.filter-bar button:disabled {
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none;
 }
-.task-form button:hover:not(:disabled), .filter-bar button:hover:not(:disabled) {
-  background: hsl(221, 83%, 43%);
+.task-form button:hover:not(:disabled),
+.filter-bar button:hover:not(:disabled) {
+  background: hsl(221, 90%, 65%);
 }
 
 .task-form {
@@ -112,13 +124,13 @@ header h1 {
   margin-bottom: 24px;
 }
 #taskList li {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(145deg, #1e293b, rgb(24.8426966292, 33.9516853933, 48.8573033708));
+  border: 1px solid #334155;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   padding: 24px;
   cursor: pointer;
-  transition: 0.2s ease all;
+  transition: 0.3s ease;
   margin-bottom: 12px;
   display: flex;
   align-items: center;
@@ -127,33 +139,36 @@ header h1 {
   cursor: grab;
 }
 #taskList li:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 #taskList li:hover {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 #taskList li:active {
   cursor: grabbing;
 }
 #taskList li.completed {
-  opacity: 0.7;
-  background: #e2e8f0;
+  opacity: 0.6;
+  background: #334155;
 }
 #taskList li.completed strong {
   text-decoration: line-through;
-  color: #64748b;
+  color: rgb(91.5738636364, 109.6306818182, 135.4261363636);
 }
 #taskList li.high {
-  border-left: 50px solid hsl(0, 72%, 55%);
-  background: hsla(0, 72%, 55%, 0.2);
+  box-shadow: inset 8px 0 0 hsl(0, 75%, 58%);
+  background: rgba(228.225, 67.575, 67.575, 0.15);
+  border-color: hsl(0, 75%, 58%);
 }
 #taskList li.medium {
-  border-left: 50px solid hsl(32, 84%, 48%);
-  background: hsla(32, 84%, 48%, 0.2);
+  box-shadow: inset 8px 0 0 hsl(32, 90%, 52%);
+  background: rgba(242.76, 139.944, 22.44, 0.15);
+  border-color: hsl(32, 90%, 52%);
 }
 #taskList li.low {
-  border-left: 50px solid hsl(160, 70%, 40%);
-  background: hsla(160, 70%, 40%, 0.2);
+  box-shadow: inset 8px 0 0 hsl(160, 75%, 42%);
+  background: rgba(26.775, 187.425, 133.875, 0.15);
+  border-color: hsl(160, 75%, 42%);
 }
 #taskList li label {
   display: flex;
@@ -165,7 +180,7 @@ header h1 {
 #taskList li label input[type=checkbox] {
   width: 18px;
   height: 18px;
-  accent-color: hsl(221, 83%, 53%);
+  accent-color: hsl(221, 90%, 60%);
 }
 #taskList li label div {
   flex: 1;
@@ -178,60 +193,59 @@ header h1 {
 }
 #taskList li label div .meta {
   font-size: 12px;
-  color: #64748b;
+  color: rgb(116.5909090909, 135.0454545455, 161.4090909091);
   display: flex;
-  gap: 8px;
   flex-wrap: wrap;
+  gap: 6px;
 }
 #taskList li > div:last-child {
   display: flex;
   gap: 8px;
 }
 #taskList li > div:last-child button {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #fff;
-  color: #1e293b;
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #334155;
+  color: #f9fafb;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
-  outline: none;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: 0.2s ease all;
+  transition: 0.3s ease;
   width: 36px;
   height: 36px;
   padding: 0;
   font-size: 16px;
 }
 #taskList li > div:last-child button:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 #taskList li > div:last-child button:focus {
-  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+  box-shadow: 0 0 0 4px rgba(100, 149, 255, 0.2);
+  outline: none;
 }
 #taskList li > div:last-child button:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none;
 }
 #taskList li > div:last-child button:first-child:hover {
-  background: rgba(35.6745, 98.67565, 234.6255, 0.1);
-  border-color: hsl(221, 83%, 53%);
+  background: rgba(61.2, 119.34, 244.8, 0.2);
 }
 #taskList li > div:last-child button:last-child:hover {
-  background: rgba(222.87, 57.63, 57.63, 0.1);
-  border-color: hsl(0, 72%, 55%);
+  background: rgba(228.225, 67.575, 67.575, 0.2);
 }
 
 .controls {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(145deg, #1e293b, rgb(24.8426966292, 33.9516853933, 48.8573033708));
+  border: 1px solid #334155;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   padding: 24px;
   display: flex;
   flex-wrap: wrap;
@@ -239,85 +253,81 @@ header h1 {
   align-items: center;
 }
 .controls button, .controls input:not([type=file]) {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #fff;
-  color: #1e293b;
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #334155;
+  color: #f9fafb;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
-  outline: none;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: 0.2s ease all;
+  transition: 0.3s ease;
 }
 .controls button:hover, .controls input:not([type=file]):hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 .controls button:focus, .controls input:not([type=file]):focus {
-  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+  box-shadow: 0 0 0 4px rgba(100, 149, 255, 0.2);
+  outline: none;
 }
 .controls button:disabled, .controls input:not([type=file]):disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none;
 }
 .controls button:hover:not(:disabled), .controls input:not([type=file]):hover:not(:disabled) {
-  background: #e2e8f0;
+  background: rgb(60.5625, 77.1875, 100.9375);
 }
 .controls input[type=file] {
-  position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #e2e8f0;
-  color: #1e293b;
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: rgb(21.404494382, 29.2528089888, 42.095505618);
+  color: #f9fafb;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
-  outline: none;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: 0.2s ease all;
-  max-width: 200px;
-  padding: 8px 12px;
+  transition: 0.3s ease;
   font-size: 12px;
   overflow: hidden;
+  max-width: 200px;
 }
 .controls input[type=file]:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 .controls input[type=file]:focus {
-  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+  box-shadow: 0 0 0 4px rgba(100, 149, 255, 0.2);
+  outline: none;
 }
 .controls input[type=file]:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none;
 }
 .controls input[type=file]::file-selector-button {
-  background: hsl(221, 83%, 53%);
-  color: #fff;
+  background: hsl(221, 90%, 60%);
+  color: #f9fafb;
   border: none;
   padding: 4px 8px;
   border-radius: 4px;
   margin-right: 8px;
-  font-size: 11px;
-  font-weight: 500;
   cursor: pointer;
-  transition: 0.2s ease all;
 }
 .controls input[type=file]:hover {
-  background: #fff;
-  border-color: hsl(221, 83%, 53%);
+  background: rgb(35.1573033708, 48.0483146067, 69.1426966292);
 }
 .controls input[type=file]:hover::file-selector-button {
-  background: hsl(221, 83%, 43%);
+  background: hsl(221, 90%, 50%);
 }
 .controls > div {
   display: flex;
@@ -329,122 +339,126 @@ header h1 {
   padding: 6px 12px;
 }
 .controls > div button:nth-child(1) {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
-  border: 1px solid hsl(221, 83%, 53%);
-  border-radius: 8px;
-  background: rgba(35.6745, 98.67565, 234.6255, 0.1);
-  color: hsl(221, 83%, 53%);
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: rgba(61.2, 119.34, 244.8, 0.1);
+  color: hsl(221, 90%, 60%);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
-  outline: none;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: 0.2s ease all;
+  transition: 0.3s ease;
 }
 .controls > div button:nth-child(1):hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 .controls > div button:nth-child(1):focus {
-  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+  box-shadow: 0 0 0 4px rgba(100, 149, 255, 0.2);
+  outline: none;
 }
 .controls > div button:nth-child(1):disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none;
+}
+.controls > div button:nth-child(1):hover {
+  background: hsl(221, 90%, 60%);
+  color: #f9fafb;
 }
 .controls > div button:nth-child(2) {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
-  border: 1px solid hsl(160, 70%, 40%);
-  border-radius: 8px;
-  background: rgba(30.6, 173.4, 125.8, 0.1);
-  color: hsl(160, 70%, 40%);
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: rgba(26.775, 187.425, 133.875, 0.1);
+  color: hsl(160, 75%, 42%);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
-  outline: none;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: 0.2s ease all;
+  transition: 0.3s ease;
 }
 .controls > div button:nth-child(2):hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 .controls > div button:nth-child(2):focus {
-  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+  box-shadow: 0 0 0 4px rgba(100, 149, 255, 0.2);
+  outline: none;
 }
 .controls > div button:nth-child(2):disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none;
+}
+.controls > div button:nth-child(2):hover {
+  background: hsl(160, 75%, 42%);
+  color: #f9fafb;
 }
 .controls > div button:nth-child(3) {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
-  border: 1px solid hsl(0, 72%, 55%);
-  border-radius: 8px;
-  background: rgba(222.87, 57.63, 57.63, 0.1);
-  color: hsl(0, 72%, 55%);
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: rgba(228.225, 67.575, 67.575, 0.1);
+  color: hsl(0, 75%, 58%);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
-  outline: none;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: 0.2s ease all;
+  transition: 0.3s ease;
 }
 .controls > div button:nth-child(3):hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 .controls > div button:nth-child(3):focus {
-  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+  box-shadow: 0 0 0 4px rgba(100, 149, 255, 0.2);
+  outline: none;
 }
 .controls > div button:nth-child(3):disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none;
 }
-.controls > div button:hover {
-  color: #fff;
-}
-.controls > div button:hover:nth-child(1) {
-  background: hsl(221, 83%, 53%);
-}
-.controls > div button:hover:nth-child(2) {
-  background: hsl(160, 70%, 40%);
-}
-.controls > div button:hover:nth-child(3) {
-  background: hsl(0, 72%, 55%);
+.controls > div button:nth-child(3):hover {
+  background: hsl(0, 75%, 58%);
+  color: #f9fafb;
 }
 
 #editModal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(4px);
   display: none;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  backdrop-filter: blur(4px);
 }
 #editModal > div {
-  background: #fff;
-  border-radius: 12px;
+  background: #334155;
+  border-radius: 16px;
   padding: 32px;
   width: min(500px, 90vw);
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 #editModal > div h3 {
-  margin-bottom: 24px;
   font-size: 20px;
   font-weight: 600;
+  color: #f9fafb;
+  margin-bottom: 24px;
 }
 #editModal > div > div {
   margin-bottom: 16px;
@@ -454,84 +468,86 @@ header h1 {
 }
 #editModal > div input, #editModal > div select {
   width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #fff;
-  color: #1e293b;
+  padding: 14px 18px;
+  border: 1px solid #475569;
+  border-radius: 10px;
+  background: #1e293b;
+  color: #f9fafb;
   font-size: 14px;
-  transition: 0.2s ease all;
-  margin-bottom: 4px;
+  transition: 0.3s ease;
 }
 #editModal > div input:focus, #editModal > div select:focus {
-  border-color: hsl(221, 83%, 53%);
-  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+  border-color: hsl(221, 90%, 60%);
+  background: rgb(24.8426966292, 33.9516853933, 48.8573033708);
+  box-shadow: 0 0 0 3px rgba(100, 149, 255, 0.2);
   outline: none;
 }
 #editModal > div input::placeholder, #editModal > div select::placeholder {
-  color: #64748b;
+  color: rgb(116.5909090909, 135.0454545455, 161.4090909091);
 }
 #editModal > div button {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #fff;
-  color: #1e293b;
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #334155;
+  color: #f9fafb;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
-  outline: none;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: 0.2s ease all;
+  transition: 0.3s ease;
   margin-right: 12px;
 }
 #editModal > div button:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 #editModal > div button:focus {
-  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+  box-shadow: 0 0 0 4px rgba(100, 149, 255, 0.2);
+  outline: none;
 }
 #editModal > div button:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none;
 }
 #editModal > div button:first-of-type {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
-  border: 1px solid hsl(221, 83%, 53%);
-  border-radius: 8px;
-  background: hsl(221, 83%, 53%);
-  color: #fff;
+  padding: 10px 18px;
+  border: 1px solid hsl(221, 90%, 60%);
+  border-radius: 10px;
+  background: hsl(221, 90%, 60%);
+  color: #f9fafb;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
-  outline: none;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: 0.2s ease all;
+  transition: 0.3s ease;
 }
 #editModal > div button:first-of-type:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 #editModal > div button:first-of-type:focus {
-  box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+  box-shadow: 0 0 0 4px rgba(100, 149, 255, 0.2);
+  outline: none;
 }
 #editModal > div button:first-of-type:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none;
 }
 #editModal > div button:first-of-type:hover {
-  background: hsl(221, 83%, 43%);
+  background: hsl(221, 90%, 65%);
 }
 
 .error-message {
-  color: hsl(0, 72%, 55%);
+  color: hsl(0, 75%, 58%);
   font-size: 12px;
   margin-top: 4px;
   display: none;
@@ -543,7 +559,7 @@ header h1 {
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(-50px) scale(0.95);
+    transform: translateY(-40px) scale(0.95);
   }
   to {
     opacity: 1;
@@ -573,7 +589,7 @@ header h1 {
     padding: 16px;
   }
   #taskList li {
-    padding: 10px 16px;
+    padding: 12px 16px;
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
@@ -583,16 +599,15 @@ header h1 {
   }
   #taskList li > div:last-child {
     order: 2;
-    justify-content: right;
+    justify-content: flex-end;
   }
   #taskList li .meta {
     flex-direction: column;
-    gap: 2px;
   }
   .controls input[type=file] {
     max-width: 100%;
   }
-  #edit-modal > div {
+  #editModal > div {
     padding: 24px;
   }
 }

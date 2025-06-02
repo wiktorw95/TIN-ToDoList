@@ -1,102 +1,119 @@
-$primary: hsl(221, 83%, 53%);
-$danger: hsl(0, 72%, 55%);
-$warning: hsl(32, 84%, 48%);
-$success: hsl(160, 70%, 40%);
-$white: #fff;
-$black: #1e293b;
-$gray: #f1f5f9;
-$gray-dark: #64748b;
-$gray-light: #e2e8f0;
+// Color variables
+$primary: hsl(221, 90%, 60%);
+$danger: hsl(0, 75%, 58%);
+$warning: hsl(32, 90%, 52%);
+$success: hsl(160, 75%, 42%);
+$white: #f9fafb;
+$black: #0f172a;
+$gray: #1e293b;
+$gray-dark: #334155;
+$gray-light: #475569;
+
 // UI style values
-$radius: 8px;
-$radius-lg: 12px;
-$shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-$shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
-$transition: 0.2s ease all;
+$radius: 10px;
+$radius-lg: 16px;
+$shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+$shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.4);
+$transition: 0.3s ease;
+
 // Mixins
-//
 @mixin interactive {
   cursor: pointer;
   transition: $transition;
   &:hover {
-    transform: translateY(-1px);
-  }}
-@mixin button($bg: $white, $color: $black, $border: $gray-light) {
-  display: flex;
+    transform: translateY(-2px);
+  }
+}
+
+@mixin button($bg: $gray-dark, $color: $white, $border: transparent) {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
+  padding: 10px 18px;
   border: 1px solid $border;
   border-radius: $radius;
   background: $bg;
   color: $color;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
-  outline: none;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,0.2);
   @include interactive;
   &:focus {
-    box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+    box-shadow: 0 0 0 4px rgba(100, 149, 255, 0.2);
+    outline: none;
   }
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
     transform: none;
-  }}
+  }
+}
+
 @mixin input {
   width: 100%;
-  padding: 12px 16px;
+  padding: 14px 18px;
   border: 1px solid $gray-light;
   border-radius: $radius;
-  background: $white;
-  color: $black;
+  background: $gray;
+  color: $white;
   font-size: 14px;
   transition: $transition;
   &:focus {
     border-color: $primary;
-    box-shadow: 0 0 0 3px rgba(34, 112, 243, 0.1);
+    background: darken($gray, 3%);
+    box-shadow: 0 0 0 3px rgba(100, 149, 255, 0.2);
     outline: none;
   }
-  &::placeholder { color: $gray-dark; }
+  &::placeholder {
+    color: lighten($gray-light, 20%);
+  }
 }
+
 @mixin card {
-  background: $white;
-  border: 1px solid $gray-light;
+  background: linear-gradient(145deg, $gray, darken($gray, 3%));
+  border: 1px solid $gray-dark;
   border-radius: $radius-lg;
   box-shadow: $shadow;
-  padding: 24px;}
-// Base reset
+  padding: 24px;
+}
 
+// Base reset
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+
 body {
-   font-family: sans-serif;
-  background: $gray;
-  color: $black;
-  line-height: 1.6;
+  font-family: sans-serif;
+  background: $black;
+  color: $white;
   font-size: 14px;
+  line-height: 1.6;
 }
+
 // Layout
 #List-app {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
-header
-{
+
+// Header
+header {
   text-align: center;
   margin-bottom: 32px;
   h1 {
-    font-size: clamp(24px, 5vw, 32px);
+    font-size: clamp(24px, 5vw, 36px);
     font-weight: 700;
-    margin-bottom: 8px;
+    color: $primary;
   }
 }
+
 // Forms
-.task-form, .filter-bar {
+.task-form,
+.filter-bar {
   @include card;
   margin-bottom: 24px;
   display: grid;
@@ -104,20 +121,26 @@ header
   input, select { @include input; }
   button {
     @include button($primary, $white, $primary);
-    padding: 12px 24px;
-    font-weight: 600;
-    &:hover:not(:disabled) { background: darken($primary, 10%); }
+    &:hover:not(:disabled) {
+      background: lighten($primary, 5%);
+    }
   }
 }
+
 .task-form {
   grid-template-columns: 2fr repeat(3, 1fr) auto;
   @media (max-width: 576px) {
-    grid-template-columns: 1fr; }
+    grid-template-columns: 1fr;
+  }
 }
+
 .filter-bar {
   grid-template-columns: 2fr 1fr 1fr;
-  @media (max-width: 768px) { grid-template-columns: 1fr; }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }
+
 // Task list
 #taskList {
   list-style: none;
@@ -133,26 +156,31 @@ header
     cursor: grab;
     &:hover { box-shadow: $shadow-lg; }
     &:active { cursor: grabbing; }
+
     &.completed {
-      opacity: 0.7;
-      background: $gray-light;
+      opacity: 0.6;
+      background: $gray-dark;
       strong {
         text-decoration: line-through;
-        color: $gray-dark;
+        color: lighten($gray-light, 10%);
       }
     }
     &.high {
-      border-left: 50px solid $danger;
-      background: hsla(0, 72%, 55%, 0.2);
+      box-shadow: inset 8px 0 0 $danger;
+      background: rgba($danger, 0.15);
+      border-color: $danger;
     }
     &.medium {
-      border-left: 50px solid $warning;
-      background: hsla(32, 84%, 48%, 0.2);
+      box-shadow: inset 8px 0 0 $warning;
+      background: rgba($warning, 0.15);
+      border-color: $warning;
     }
     &.low {
-      border-left: 50px solid $success;
-      background: hsla(160, 70%, 40%, 0.2);
+      box-shadow: inset 8px 0 0 $success;
+      background: rgba($success, 0.15);
+      border-color: $success;
     }
+
     label {
       display: flex;
       align-items: center;
@@ -164,6 +192,7 @@ header
         height: 18px;
         accent-color: $primary;
       }
+
       div {
         flex: 1;
         strong {
@@ -172,36 +201,39 @@ header
           font-weight: 600;
           margin-bottom: 4px;
         }
+
         .meta {
           font-size: 12px;
-          color: $gray-dark;
+          color: lighten($gray-light, 20%);
           display: flex;
-          gap: 8px;
           flex-wrap: wrap;
+          gap: 6px;
         }
       }
     }
+
     > div:last-child {
       display: flex;
       gap: 8px;
+
       button {
         @include button;
         width: 36px;
         height: 36px;
         padding: 0;
         font-size: 16px;
+
         &:first-child:hover {
-          background: rgba($primary, 0.1);
-          border-color: $primary;
+          background: rgba($primary, 0.2);
         }
         &:last-child:hover {
-          background: rgba($danger, 0.1);
-          border-color: $danger;
+          background: rgba($danger, 0.2);
         }
       }
     }
   }
 }
+
 // Controls
 .controls {
   @include card;
@@ -213,16 +245,16 @@ header
   button, input:not([type="file"]) {
     @include button;
     &:hover:not(:disabled) {
-      background: $gray-light;
+      background: lighten($gray-dark, 5%);
     }
   }
+
   input[type="file"] {
-    position: relative;
-    @include button($gray-light, $black, $gray-light);
-    max-width: 200px;
-    padding: 8px 12px;
+    @include button(darken($gray, 5%), $white, transparent);
     font-size: 12px;
     overflow: hidden;
+    max-width: 200px;
+
     &::file-selector-button {
       background: $primary;
       color: $white;
@@ -230,111 +262,122 @@ header
       padding: 4px 8px;
       border-radius: 4px;
       margin-right: 8px;
-      font-size: 11px;
-      font-weight: 500;
       cursor: pointer;
-      transition: $transition;
     }
+
     &:hover {
-      background: $white;
-      border-color: $primary;
+      background: lighten($gray, 3%);
       &::file-selector-button {
         background: darken($primary, 10%);
       }
     }
   }
+
   > div {
     display: flex;
     gap: 8px;
     margin-left: auto;
+
     button {
       font-size: 12px;
       padding: 6px 12px;
-      $button-colors: $primary, $success, $danger;
-      @each $color in $button-colors {
-        $index: index($button-colors, $color);
-        &:nth-child(#{$index}) {
-          @include button(rgba($color, 0.1), $color, $color);
-        }
-      }
-      &:hover {
-        color: $white;
-        @each $color in $button-colors {
-          $index: index($button-colors, $color);
-          &:nth-child(#{$index}) {
+      $colors: $primary, $success, $danger;
+      @each $color in $colors {
+        $i: index($colors, $color);
+        &:nth-child(#{$i}) {
+          @include button(rgba($color, 0.1), $color, transparent);
+          &:hover {
             background: $color;
+            color: $white;
           }
         }
       }
     }
   }
 }
+
 // Modal
 #editModal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(4px);
   display: none;
   justify-content: center;
-  align-items: center;  z-index: 1000;
-  backdrop-filter: blur(4px);
+  align-items: center;
+  z-index: 1000;
+
   > div {
-    background: $white;
+    background: $gray-dark;
     border-radius: $radius-lg;
     padding: 32px;
     width: min(500px, 90vw);
     max-height: 90vh;
     overflow-y: auto;
     box-shadow: $shadow-lg;
+
     h3 {
-      margin-bottom: 24px;
       font-size: 20px;
       font-weight: 600;
+      color: $white;
+      margin-bottom: 24px;
     }
+
     > div {
       margin-bottom: 16px;
-      &:last-of-type { margin-bottom: 24px; }
+      &:last-of-type {
+        margin-bottom: 24px;
+      }
     }
+
     input, select {
       @include input;
-      margin-bottom: 4px;
     }
+
     button {
       @include button;
       margin-right: 12px;
+
       &:first-of-type {
         @include button($primary, $white, $primary);
-        &:hover { background: darken($primary, 10%);
+        &:hover {
+          background: lighten($primary, 5%);
         }
       }
     }
   }
 }
-// Utilities
+
+// Utility
 .error-message {
   color: $danger;
   font-size: 12px;
   margin-top: 4px;
   display: none;
-  &.show { display: inline-flex; }
+  &.show {
+    display: inline-flex;
+  }
 }
+
 // Animations
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(-50px) scale(0.95);
+    transform: translateY(-40px) scale(0.95);
   }
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
 }
-// Responsive
+
+// Responsive tweaks
 @media (max-width: 768px) {
   #List-app { padding: 16px; }
   .controls > div {
@@ -347,19 +390,23 @@ header
   #List-app { padding: 12px; }
   .task-form, .filter-bar, .controls { padding: 16px; }
   #taskList li {
-    padding: 10px 16px;
+    padding: 12px 16px;
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
     label { order: 1; }
     > div:last-child {
       order: 2;
-      justify-content: right;
+      justify-content: flex-end;
     }
     .meta {
       flex-direction: column;
-      gap: 2px;
     }
   }
-  .controls input[type="file"] { max-width: 100%; }
-  #edit-modal > div { padding: 24px; }}
+  .controls input[type="file"] {
+    max-width: 100%;
+  }
+  #editModal > div {
+    padding: 24px;
+  }
+}

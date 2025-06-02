@@ -113,13 +113,9 @@
 
     function renderEditModal() {
       const modal = createElement('div', [], '', {
-        id: 'editModal',
-        style: 'display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); justify-content:center; align-items:center; z-index:1000;'
-      });
+        id: 'editModal'});
 
-      const modalContent = createElement('div', [], '', {
-        style: 'background:#fff; padding:20px; border-radius:10px; width:90%; max-width:400px;'
-      });
+      const modalContent = createElement('div', [], '');
 
       const title = createElement('h3', [], 'Edytuj zadanie');
 
@@ -207,33 +203,28 @@
       [header, renderTaskForm(), renderFilterBar(), renderEditModal(), renderTaskList(), renderControls()].forEach(option => appContainer.appendChild(option));
     }
 
-// Call renderApp first to create the DOM elements
     renderApp();
 
-// IMPORTANT: Move the els object AFTER renderApp() is called
     let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
     let history = [], redoStack = [], editIdx = null, stats = { addCount: 0 };
 
-// DOM elements - NOW they will exist when this runs
-    const els = {};
+    const elements = {};
     ['title', 'category', 'priority', 'deadline', 'filterText', 'filterCat', 'filterPri', 'importFile', 'taskList', 'editModal', 'editTitle', 'editCat', 'editPri', 'editDeadline', 'titleError', 'editTitleError']
-            .forEach(key => els[key] = document.getElementById(key));
+            .forEach(key => elements[key] = document.getElementById(key));
 
-    // Utility functions
     const save = () => localStorage.setItem('tasks', JSON.stringify(tasks));
     const updateHistory = () => { history.push(JSON.stringify(tasks)); redoStack = []; };
     const sanitize = input => { const div = document.createElement("div"); div.textContent = input; return div.innerHTML; };
     const log = (event, details = "") => console.log(`[LOG] ${new Date().toISOString()} - ${event}: ${details}`);
 
-    // Modal functions
     const openEditModal = idx => {
       const t = tasks[idx];
       editIdx = idx;
-      els.editTitle.value = t.title;
-      els.editCat.value = t.category || '';
-      els.editPri.value = t.priority || '';
-      els.editDeadline.value = t.deadline || '';
-      els.editModal.style.display = 'flex';
+      elements.editTitle.value = t.title;
+      elements.editCat.value = t.category || '';
+      elements.editPri.value = t.priority || '';
+      elements.editDeadline.value = t.deadline || '';
+      elements.editModal.style.display = 'flex';
     };
 
     const closeEditModal = () => {
@@ -254,7 +245,7 @@
 
     const saveEdit = () => {
       if (editIdx === null) return;
-      const newTitle = els.editTitle.value.trim();
+      const newTitle = elements.editTitle.value.trim();
       const errorElement = document.getElementById('editTitleError');
 
       if (!newTitle) {
@@ -267,9 +258,9 @@
       tasks[editIdx] = {
         ...tasks[editIdx],
         title: sanitize(newTitle),
-        category: sanitize(els.editCat.value),
-        priority: sanitize(els.editPri.value),
-        deadline: sanitize(els.editDeadline.value)
+        category: sanitize(elements.editCat.value),
+        priority: sanitize(elements.editPri.value),
+        deadline: sanitize(elements.editDeadline.value)
       };
 
       log("Task Edited", newTitle);
@@ -280,7 +271,7 @@
 
     // Task operations
     const addTask = () => {
-      const title = sanitize(els.title.value.trim());
+      const title = sanitize(elements.title.value.trim());
       const errorElement = document.getElementById('titleError');
 
       if (!title) {
@@ -294,9 +285,9 @@
       updateHistory();
       tasks.push({
         title,
-        category: sanitize(els.category.value),
-        priority: sanitize(els.priority.value),
-        deadline: sanitize(els.deadline.value),
+        category: sanitize(elements.category.value),
+        priority: sanitize(elements.priority.value),
+        deadline: sanitize(elements.deadline.value),
         completed: false
       });
 
@@ -304,7 +295,7 @@
       log("Task Added", title);
       log("Task Count", stats.addCount);
 
-      els.title.value = els.category.value = els.priority.value = els.deadline.value = '';
+      elements.title.value = elements.category.value = elements.priority.value = elements.deadline.value = '';
       save();
       render();
     };
@@ -350,20 +341,16 @@
       }
     };
 
-    // Import/Export with Promise.all
-
     const exportTasks = () => {
       try {
         const download = (data, name) => {
           const a = document.createElement('a');
-          a.href = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: 'application/json' }));
+          a.href = `data:application/json,${encodeURIComponent(JSON.stringify(data))}`;
           a.download = name;
           a.click();
-          URL.revokeObjectURL(a.href);
         };
 
         download(tasks, 'tasks.json');
-        download({ stats, exportDate: new Date().toISOString() }, 'settings.json');
 
         log("Export Completed", "Tasks and settings have been exported");
       } catch (error) {
@@ -377,19 +364,14 @@
       if (!files.length) return;
 
       try {
-        const fileData = await Promise.all(files.map(file =>
-                new Promise(resolve => {
-                  const reader = new FileReader();
-                  reader.onload = () => {
-                    try {
-                      resolve({ name: file.name, data: JSON.parse(reader.result) });
-                    } catch {
-                      resolve({ name: file.name, data: null });
-                    }
-                  };
-                  reader.readAsText(file);
-                })
-        ));
+        const fileData = await Promise.all(files.map(async file => {
+          try {
+            const text = await file.text();
+            return { name: file.name, data: JSON.parse(text) };
+          } catch {
+            return { name: file.name, data: null };
+          }
+        }));
 
         const tasksFile = fileData.find(f => f.name.includes('tasks') && Array.isArray(f.data));
         const settingsFile = fileData.find(f => f.name.includes('settings') && f.data?.stats);
@@ -412,10 +394,10 @@
 
     // Render function
     const render = () => {
-      els.taskList.innerHTML = '';
-      const fText = els.filterText.value.toLowerCase();
-      const fCat = els.filterCat.value;
-      const fPri = els.filterPri.value;
+      elements.taskList.innerHTML = '';
+      const fText = elements.filterText.value.toLowerCase();
+      const fCat = elements.filterCat.value;
+      const fPri = elements.filterPri.value;
       stats.addCount = 0;
 
       tasks
@@ -470,71 +452,52 @@
 
                 buttonsDiv.append(editBtn, deleteBtn);
                 li.append(label, buttonsDiv);
-                els.taskList.appendChild(li);
+                elements.taskList.appendChild(li);
               });
     };
 
     // Event listeners
-    els.importFile.addEventListener('change', importTasks);
-    els.filterText.addEventListener('input', render);
-    els.filterCat.addEventListener('change', render);
-    els.filterPri.addEventListener('change', render);
+    elements.importFile.addEventListener('change', importTasks);
+    elements.filterText.addEventListener('input', render);
+    elements.filterCat.addEventListener('change', render);
+    elements.filterPri.addEventListener('change', render);
 
     // Batch operations with Promise.all
-    const batchComplete = async (taskIndices) => {
+    const batchOperation = async (selected, operation) => {
       updateHistory();
 
-      // Complete multiple tasks simultaneously
-      await Promise.all(
-              taskIndices.map(async (idx) => {
-                tasks[idx].completed = true;
-                log("Task Completed", tasks[idx].title);
-                return Promise.resolve();
-              })
-      );
+      if (operation === 'complete') {
+        selected.forEach(idx => {
+          tasks[idx].completed = true;
+          log("Task Completed", tasks[idx].title);
+        });
+      } else if (operation === 'delete') {
+        selected.forEach(idx => log("Task Deleted", tasks[idx].title));
+        selected.reverse().forEach(idx => tasks.splice(idx, 1));
+      }
 
       save();
       render();
     };
 
-    const batchDelete = async (taskIndices) => {
-      updateHistory();
-
-      // Log all deletions simultaneously
-      await Promise.all(
-              taskIndices.map(async (idx) => {
-                log("Task Deleted", tasks[idx].title);
-                return Promise.resolve();
-              })
-      );
-
-      // Remove tasks (reverse order to maintain indices)
-      taskIndices.reverse().forEach(idx => tasks.splice(idx, 1));
-
-      save();
-      render();
-    };
-
-    // Add bulk operations to the interface
+// Add bulk operations to the interface
     const addBulkControls = () => {
       const controls = document.querySelector('.controls');
       const bulkDiv = document.createElement('div');
 
-      const selectBtn = document.createElement('button');
-      selectBtn.textContent = 'Zaznacz widoczne';
-      selectBtn.onclick = selectAllVisible;
+      const buttons = [
+        { text: 'Zaznacz widoczne', onclick: selectAllVisible },
+        { text: 'Ukończ zaznaczone', onclick: () => executeSelected('complete') },
+        { text: 'Usuń zaznaczone', onclick: () => executeSelected('delete') }
+      ];
 
-      const completeBtn = document.createElement('button');
-      completeBtn.textContent = 'Ukończ zaznaczone';
-      completeBtn.onclick = completeSelected;
+      buttons.forEach(btn => {
+        const button = document.createElement('button');
+        button.textContent = btn.text;
+        button.onclick = btn.onclick;
+        bulkDiv.appendChild(button);
+      });
 
-      const deleteBtn = document.createElement('button');
-      deleteBtn.textContent = 'Usuń zaznaczone';
-      deleteBtn.onclick = deleteSelected;
-
-      bulkDiv.appendChild(selectBtn);
-      bulkDiv.appendChild(completeBtn);
-      bulkDiv.appendChild(deleteBtn);
       controls.appendChild(bulkDiv);
     };
 
@@ -549,16 +512,9 @@
       });
     };
 
-    const completeSelected = async () => {
+    const executeSelected = async (operation) => {
       if (selectedTasks.size > 0) {
-        await batchComplete([...selectedTasks]);
-        selectedTasks.clear();
-      }
-    };
-
-    const deleteSelected = async () => {
-      if (selectedTasks.size > 0) {
-        await batchDelete([...selectedTasks]);
+        await batchOperation([...selectedTasks], operation);
         selectedTasks.clear();
       }
     };
