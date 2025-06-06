@@ -31,6 +31,7 @@ header h1 {
 .task-form,
 .filter-bar {
   background: linear-gradient(145deg, #1e293b, rgb(24.8426966292, 33.9516853933, 48.8573033708));
+  height: 98px;
   border: 1px solid #334155;
   border-radius: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -43,6 +44,7 @@ header h1 {
 .filter-bar input,
 .filter-bar select {
   width: 100%;
+  height: 48px;
   padding: 14px 18px;
   border: 1px solid #475569;
   border-radius: 10px;
@@ -54,22 +56,18 @@ header h1 {
 .task-form input:focus, .task-form select:focus,
 .filter-bar input:focus,
 .filter-bar select:focus {
-  border-color: hsl(221, 90%, 60%);
-  background: rgb(24.8426966292, 33.9516853933, 48.8573033708);
+  border-color: hsl(182, 100%, 54%);
   box-shadow: 0 0 0 3px rgba(100, 149, 255, 0.2);
   outline: none;
 }
-.task-form input::placeholder, .task-form select::placeholder,
-.filter-bar input::placeholder,
-.filter-bar select::placeholder {
-  color: rgb(116.5909090909, 135.0454545455, 161.4090909091);
-}
+
 .task-form button,
 .filter-bar button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 10px 18px;
+  height: 48px;
   border: 1px solid hsl(221, 90%, 60%);
   border-radius: 10px;
   background: hsl(221, 90%, 60%);
@@ -219,8 +217,6 @@ header h1 {
   transition: 0.3s ease;
   width: 36px;
   height: 36px;
-  padding: 0;
-  font-size: 16px;
 }
 #taskList li > div:last-child button:hover {
   transform: translateY(-2px);
@@ -298,7 +294,6 @@ header h1 {
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: 0.3s ease;
-  font-size: 12px;
   overflow: hidden;
   max-width: 200px;
 }
@@ -377,7 +372,6 @@ header h1 {
   padding: 10px 18px;
   border: 1px solid transparent;
   border-radius: 10px;
-  background: rgba(26.775, 187.425, 133.875, 0.1);
   color: hsl(160, 75%, 42%);
   font-size: 14px;
   font-weight: 600;
@@ -409,7 +403,6 @@ header h1 {
   padding: 10px 18px;
   border: 1px solid transparent;
   border-radius: 10px;
-  background: rgba(228.225, 67.575, 67.575, 0.1);
   color: hsl(0, 75%, 58%);
   font-size: 14px;
   font-weight: 600;
@@ -449,6 +442,7 @@ header h1 {
   background: #334155;
   border-radius: 16px;
   padding: 32px;
+  height: 371px;
   width: min(500px, 90vw);
   max-height: 90vh;
   overflow-y: auto;
@@ -478,7 +472,6 @@ header h1 {
 }
 #editModal > div input:focus, #editModal > div select:focus {
   border-color: hsl(221, 90%, 60%);
-  background: rgb(24.8426966292, 33.9516853933, 48.8573033708);
   box-shadow: 0 0 0 3px rgba(100, 149, 255, 0.2);
   outline: none;
 }
